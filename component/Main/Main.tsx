@@ -43,7 +43,6 @@ export function Main(){
         }
     }, [messageList]);
     
-
     return (
         <div className={commentBoxShow ? styles.container : styles.container1} ref={containerRef}>
             <div style={{width:'70vw'}}>
