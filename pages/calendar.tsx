@@ -66,7 +66,11 @@ export default function Calendar(){
                     {days.map(day => <div key={day} className={styles.dayHeader}>{day}</div>)}
                 </div>
                 <div className={styles.days}>
-                    {calendarDays.map(day => <div key={day} className={styles.day}>{day}</div>)}
+                    {calendarDays.map((day, index) => (
+                        <div key={day !== null ? day : `empty-${index}`} className={styles.day}>
+                            {day}
+                        </div>
+                    ))} 
                 </div>
             </div>
             
