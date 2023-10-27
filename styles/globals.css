@@ -25,3 +25,13 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+/* Chrome, Safari, Edge用 */
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+/* Firefox用 */
+* {
+  scrollbar-width: thin;
+}

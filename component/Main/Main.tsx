@@ -46,6 +46,7 @@ export function Main(){
 
     return (
         <div className={commentBoxShow ? styles.container : styles.container1} ref={containerRef}>
+            <div style={{width:'70vw'}}>
             {messageList.map((message,index)=>(
                 <div
                     key={index}
@@ -57,6 +58,8 @@ export function Main(){
                     
                 </div>
             ))}
+            </div>
+            
         </div>
     )
 }
