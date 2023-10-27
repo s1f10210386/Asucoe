@@ -6,3 +6,7 @@ type Message ={
 }
 
 export const messageListAtom = atom<Message[]>([]);
+
+export const showModelAtom = atom(false);
+
+export const commentBoxShowAtom = atom(true);
