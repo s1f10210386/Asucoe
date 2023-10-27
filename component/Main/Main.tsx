@@ -1,11 +1,13 @@
-import { messageListAtom } from "@/utils/jotai";
+import { commentBoxShowAtom, messageListAtom } from "@/utils/jotai";
 import { baseURL } from "@/utils/url";
 import { useAtom } from "jotai";
 import styles from "./Main.module.css"
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export function Main(){
     const [messageList, setMessageList] = useAtom(messageListAtom);
+    const [commentBoxShow, setCommentBoxShow] = useAtom(commentBoxShowAtom);
+    const containerRef = useRef<HTMLDivElement>(null); 
 
 
     const getMessages= async()=>{
@@ -33,15 +35,26 @@ export function Main(){
         
         fetchMessages();
     },[setMessageList]);
+
+    useEffect(() => {
+        // 2. メッセージリストが変更されるたびにスクロール位置を最下部に設定
+        if (containerRef.current) {
+            containerRef.current.scrollTop = containerRef.current.scrollHeight;
+        }
+    }, [messageList]);
     
 
     return (
-        <div className={styles.container}>
+        <div className={commentBoxShow ? styles.container : styles.container1} ref={containerRef}>
             {messageList.map((message,index)=>(
                 <div
                     key={index}
                 >
-                    {message.content}
+                    <div className={styles.timestamp}>{message.timestamp}</div>
+                        <div className={index % 2 === 0 ? styles.leftMessage : styles.rightMessage}>
+                            {message.content}
+                        </div>
+                    
                 </div>
             ))}
         </div>

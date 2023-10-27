@@ -1,4 +1,4 @@
-import { messageListAtom } from "@/utils/jotai";
+import { commentBoxShowAtom, messageListAtom, showModelAtom } from "@/utils/jotai";
 import { baseURL } from "@/utils/url";
 import { useAtom } from "jotai";
 import styles from "./CommentBox.module.css"
@@ -11,6 +11,9 @@ export function CommentBox(){
 
     const [messageList, setMessageList] = useAtom(messageListAtom);
     const [messageContent, setMsseageContent] = useState<string>('');
+
+    const [showModel, setShowModel] = useAtom(showModelAtom);
+    const [commentBoxShow, setCommentBoxShow] = useAtom(commentBoxShowAtom);
 
 
     const addMessage=async(messageObject: {content:string, timestamp:string})=>{
@@ -45,6 +48,9 @@ export function CommentBox(){
         const newMessageObject = await addMessage(messageObject)
         setMessageList((prevMessageList) => [...prevMessageList,newMessageObject])
         setMsseageContent("")
+
+        setShowModel(true)
+        setCommentBoxShow(false)
     }
 
     return (

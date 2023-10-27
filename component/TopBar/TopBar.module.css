@@ -1,3 +1,23 @@
 .container{
     height: 10vh;
+    /* background-color: #272b2e; */
+    background-color: #fffafa;
+    display: flex;
+    justify-content: space-between; 
+    /*justify-content: center; 要らない */
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    overflow: visible;
+}
+.message{
+
+    text-align: center;
+    background-color: rgb(240, 215, 225);
+    width: 100vw;
+    height: 5vh;
+    overflow: auto;/* 内容がはみ出したらスクロール */
+    max-width: 80%;
+    border-radius: 18px;
+    margin:auto; /*真ん中に*/
+    z-index: 1;
 }
