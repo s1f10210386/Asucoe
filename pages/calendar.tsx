@@ -5,10 +5,17 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useState } from "react";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
+type DayObject ={
+    color: string;
+    content: string;
+}
 
 
 export default function Calendar(){
     
+    // 現在表示しているコンテンツの状態を追加
+    const [displayedContent, setDisplayedContent] = useState<string>("");
+
     const [currentDate, setCurrentDate] = useState(new Date());
     const days = ["日", "月", "火", "水", "木", "金", "土"];
 
@@ -36,12 +43,23 @@ export default function Calendar(){
         const daysArray = [];
         for(let i=0; i< firstDayOfMonth;i++){
             daysArray.push(null)
+            // daysArray.push(0);
         }
         for(let i= 1; i<= daysInMonth; i++){
-            daysArray.push(i);
+            // daysArray.push({
+            //     color: "",
+            //     content: `2023年${month + 1}月${i}日のコンテンツ`
+            // });
+            daysArray.push(i)
         }
         return daysArray;
     } 
+
+    const handleDayClick = (day: DayObject)=>{
+        if(day && day.content){
+            setDisplayedContent(day.content)
+        }
+    }
     const calendarDays = generateCalendarDays(currentDate);
 
     return (
@@ -72,9 +90,31 @@ export default function Calendar(){
                         </div>
                     ))} 
                 </div>
+                {/* {calendarDays.map((item, index) => {
+                    if (item === null ) { // 0またはnullの場合の処理を追加
+                        return <div key={`empty-${index}`} className={styles.day}></div>;
+                    }
+                    const day = typeof item === "number" ? item : item.content.split('日')[0].split('月')[1]; 
+                    return (
+                        <div 
+                            key={typeof item === "number" ? item : `day-${day}`}
+                            className={styles.day}
+                            onClick={() => typeof item !== "number" && item && handleDayClick(item)}
+                            style={{ color: typeof item !== "number" && item ? item.color : "inherit" }}
+                        >
+                            {day}
+                        </div>
+                    );
+                })} */}
             </div>
-            
+
+            {/* contentの表示部分を追加 */}
+            {/* <div className={styles.contentDisplay}>
+                {displayedContent}
+            </div> */}
         </div>
+            
+        
     )
 }
 

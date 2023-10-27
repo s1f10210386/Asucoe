@@ -48,9 +48,12 @@ export function TopBar(){
                         <CalendarMonthIcon fontSize="inherit" />
                     </IconButton>
                 </Link>
-                <IconButton aria-label="info" size="large" style={{ marginLeft:'auto' ,padding:'8px',color: '#000000' }}>
-                    <InfoIcon fontSize="inherit" />
-                </IconButton>
+                <Link href="/info" passHref>
+                    <IconButton aria-label="info" size="large" style={{ marginLeft:'auto' ,padding:'8px',color: '#000000' }}>
+                        <InfoIcon fontSize="inherit" />
+                    </IconButton>
+                </Link>
+                
 
             </Stack>
 
