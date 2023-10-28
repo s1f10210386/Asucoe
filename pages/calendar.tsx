@@ -2,7 +2,7 @@ import Link from "next/link"
 import styles from "./calendar.module.css"
 import { IconButton } from "@mui/material"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 type DayObject ={
@@ -11,28 +11,44 @@ type DayObject ={
 }
 
 
-export default function Calendar(){
+export default function Calendar(){   
 
-    // const [calendarDate, setCalendarDate] = useState([]);
+    const getCalendar = async()=>{
+        const responce = await fetch('/api/getDB',{
+            method:'GET',
+            headers:{
+                'Content-Type' : 'application/json',
+            },
+        })
+        const data = await responce.json()
+        const DB_calendar = data.calendar;
+        console.log("DB_calendar",DB_calendar)
+        const DB_messages = data.messages;
 
-    // useEffect(()=>{
-    //     async function  fetchCalendarDate() {
-    //         try{
-    //             const response = await fetch('/api/getCalendarDate');
-    //             const date = await response.json()
-    //             setCalendarDate(date);
-    //         }catch(error){
-    //             console.error("Error fetching calendar date:", error)
-    //         }
-    //     }
-    //     fetchCalendarDate()
-    // },[])
+        const combinedData_Calendar = DB_calendar.map((item:any)=>({
+            date : item.date,
+            emotionalValue : item.emotionalValue,
+        }))
 
-    // console.log(calendarDate)
+        const combinedDate_messages = DB_messages.map((item:any)=>({
+            content : item.content,
+            timestamp:item.timestamp,
+            calendarId: item.calendarId
+        }))
+        return { combinedData_Calendar, combinedDate_messages}
+    }
     
-    // 現在表示しているコンテンツの状態を追加
-    const [displayedContent, setDisplayedContent] = useState<string>("");
-
+    // useEffect(()=>{
+    //     const fetchDB = async()=>{
+    //         const DB = await getCalendar();
+    //         // console.log("calendar",DB.combinedData_Calendar)
+    //         // console.log("message",DB.combinedDate_messages)
+    //         setCalendarData(DB.combinedData_Calendar)
+    //         setMessageData(DB.combinedDate_messages);
+    //     }
+    //     fetchDB()
+    // });
+        
     const [currentDate, setCurrentDate] = useState(new Date());
     const days = ["日", "月", "火", "水", "木", "金", "土"];
 
@@ -49,36 +65,81 @@ export default function Calendar(){
         setCurrentDate(prev => new Date(prev.getFullYear(), prev.getMonth() + 1));
     }
 
-    const generateCalendarDays=(date: Date)=>{
-        const month = date.getMonth();
-        const year = date.getFullYear();
-        
-        const daysInMonth = getDaysInMonth(month + 1, year);
-        console.log("daysInMonth",daysInMonth)
-        const firstDayOfMonth = new Date(year, month, 1).getDay();
-        // console.log("first",firstDayOfMonth)
-        const daysArray = [];
-        for(let i=0; i< firstDayOfMonth;i++){
-            daysArray.push(null)
-            // daysArray.push(0);
+    type DayData = {
+        date: Date | null;
+        // date: string | null;
+        note?: string;
+        color?: string;
+    }
+    const eventData: DayData[] = [
+        {
+            date: new Date(2023, 9, 20), //月は0から始まるので１０月
+            // date: "2023-11-20",
+            note: "aaa",
+            color: "#e8f07b"
+        },
+        {
+            date: new Date(2023, 10, 17), //月は0から始まるので１０月
+            
+            note: "bbb",
+            color: "#4c4d45"
         }
-        for(let i= 1; i<= daysInMonth; i++){
-            // daysArray.push({
-            //     color: "",
-            //     content: `2023年${month + 1}月${i}日のコンテンツ`
-            // });
-            daysArray.push(i)
+    ]
+    const isToday = (date: Date | null)=>{
+        if(!date) return false;
+        const today = new Date();
+        return (
+            date.getDate() === today.getDate() &&
+            date.getMonth() === today.getMonth() &&
+            date.getFullYear() === today.getFullYear()
+        );
+    }
+
+
+    const generateCalendarDays = (date: Date): DayData[]=>{
+        const month = date.getMonth();
+        const year = date.getFullYear()
+
+        const daysInMonth = getDaysInMonth(month + 1, year);
+        const firstDayOfMonth = new Date(year, month, 1).getDay();
+
+        const daysArray: DayData[] = [];
+
+        for(let i = 0; i < firstDayOfMonth; i++) {
+            daysArray.push({ date: null });
+        }
+
+        for(let i = 1; i<= daysInMonth; i++){
+            const currentDate = new Date(year, month, i);
+            console.log("month",month)
+            const dataForDay = eventData.find(data => 
+                data.date && 
+                data.date.getDate() === i && 
+                data.date.getMonth() === month && 
+                data.date.getFullYear() === year
+            );
+            console.log(dataForDay)
+            
+            if(dataForDay){
+                daysArray.push(dataForDay);
+            }else{
+                daysArray.push({
+                    date:currentDate,
+                    color: isToday(currentDate) ? "white" : "rgb(234, 234, 243)"
+                })
+            }
         }
         return daysArray;
-    } 
-
-    const handleDayClick = (day: DayObject)=>{
-        if(day && day.content){
-            setDisplayedContent(day.content)
-        }
     }
-    const calendarDays = generateCalendarDays(currentDate);
+    const calendarDays = generateCalendarDays(currentDate)
 
+    const [selectedMessage, setSelectedMessage] = useState<string | null>(null);
+
+    const handleDayClick = (day: DayData) => {
+        setSelectedMessage(day.note || null);
+    };
+
+    
     return (
         <div className={styles.container}>
             <Link href="/" passHref>
@@ -101,34 +162,27 @@ export default function Calendar(){
                     {days.map(day => <div key={day} className={styles.dayHeader}>{day}</div>)}
                 </div>
                 <div className={styles.days}>
-                    {calendarDays.map((day, index) => (
-                        <div key={day !== null ? day : `empty-${index}`} className={styles.day}>
-                            {day}
-                        </div>
-                    ))} 
-                </div>
-                {/* {calendarDays.map((item, index) => {
-                    if (item === null ) { // 0またはnullの場合の処理を追加
-                        return <div key={`empty-${index}`} className={styles.day}></div>;
-                    }
-                    const day = typeof item === "number" ? item : item.content.split('日')[0].split('月')[1]; 
-                    return (
+                    {calendarDays.map((day,index)=>(
                         <div 
-                            key={typeof item === "number" ? item : `day-${day}`}
-                            className={styles.day}
-                            onClick={() => typeof item !== "number" && item && handleDayClick(item)}
-                            style={{ color: typeof item !== "number" && item ? item.color : "inherit" }}
+                            key={index} 
+                            className={styles.day}  
+                            onClick={() => handleDayClick(day)}
+                            style={{ backgroundColor : day.color || 'rgb(234, 234, 243)'}}
+        
                         >
-                            {day}
+                            
+                            {day.date ? day.date.getDate() : ""}
                         </div>
-                    );
-                })} */}
+                    ))}
+                </div>
+                
+                
             </div>
-
-            {/* contentの表示部分を追加 */}
-            {/* <div className={styles.contentDisplay}>
-                {displayedContent}
-            </div> */}
+            {selectedMessage &&(
+                    <div className={styles.noteDisplay}>
+                        {selectedMessage}
+                    </div>
+            )}
         </div>
             
         

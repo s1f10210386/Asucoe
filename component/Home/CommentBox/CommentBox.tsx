@@ -61,19 +61,19 @@ export function CommentBox(){
     //     setCommentBoxShow(false)
     // }
 
-    type CalendarObject = {
+    type PostObject = {
         date: string;
         content: string;
         timestamp: string;
     }
 
-    const addCalendar = async(calendarObject: CalendarObject)=>{
+    const addContent = async(postObject: PostObject)=>{
         const response = await fetch('/api/postDB_message_calendar',{
             method: 'POST',
             headers:{
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(calendarObject),
+            body: JSON.stringify(postObject),
         })
 
         const data = await response.json();
@@ -91,12 +91,12 @@ export function CommentBox(){
         if(messageContent === "") return;
         const nowString = getCurrentTimestamp();
         const now = new Date().toISOString()
-        const calendarObject ={
+        const addObject ={
             date:now,
             content:messageContent,
             timestamp: nowString,
         }
-        const newCalendarData = await addCalendar(calendarObject)
+        const newCalendarData = await addContent(addObject)
         const MessageObject = newCalendarData.message
         setMessageList((prevMessageList)=>[...prevMessageList, MessageObject]);
         setMsseageContent("");

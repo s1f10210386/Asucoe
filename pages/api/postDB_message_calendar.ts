@@ -7,11 +7,10 @@ export default async function postDB_message_calendar(req: NextApiRequest, res: 
     if(req.method === "POST"){
         const { date, content, timestamp } = req.body as {date: string; content: string; timestamp: string };
         
-        // Step 1: まず Calendar を作成
         const calendar = await prisma.calendar.create({
             data: {
-                date: new Date(date), // date は DateTime 形式に変換
-                emotionalValue: 0 // 仮の値
+                date, // date は DateTime 形式に変換
+                emotionalValue: 0, // 仮の値
             }
         });
         
