@@ -13,22 +13,50 @@ type DayObject ={
 
 export default function Calendar(){
 
-    // const [calendarDate, setCalendarDate] = useState([]);
+    const [calendarData, setCalendarData] = useState<any>([]);
+    const [messageData, setMessageData] = useState<any>([]);
+    
 
-    // useEffect(()=>{
-    //     async function  fetchCalendarDate() {
-    //         try{
-    //             const response = await fetch('/api/getCalendarDate');
-    //             const date = await response.json()
-    //             setCalendarDate(date);
-    //         }catch(error){
-    //             console.error("Error fetching calendar date:", error)
-    //         }
-    //     }
-    //     fetchCalendarDate()
-    // },[])
+    const getCalendar = async()=>{
+        const responce = await fetch('/api/getDB',{
+            method:'GET',
+            headers:{
+                'Content-Type' : 'application/json',
+            },
+        })
+        const data = await responce.json()
+        const DB_calendar = data.calendar;
+        console.log("DB_calendar",DB_calendar)
+        const DB_messages = data.messages;
 
-    // console.log(calendarDate)
+        const combinedData_Calendar = DB_calendar.map((item:any)=>({
+            date : item.date,
+            emotionalValue : item.emotionalValue,
+        }))
+
+        const combinedDate_messages = DB_messages.map((item:any)=>({
+            content : item.content,
+            timestamp:item.timestamp,
+            calendarId: item.calendarId
+        }))
+        return { combinedData_Calendar, combinedDate_messages}
+    }
+    
+    useEffect(()=>{
+        const fetchDB = async()=>{
+            const DB = await getCalendar();
+            // console.log("calendar",DB.combinedData_Calendar)
+            // console.log("message",DB.combinedDate_messages)
+            setCalendarData(DB.combinedData_Calendar)
+            setMessageData(DB.combinedDate_messages);
+        }
+        fetchDB()
+    });
+        
+    const getEmotionalColor = (value: number) => {
+        // ここでemotionalValueに応じた色を返すロジックを書くことができます
+        return value === 0 ? "grey" : "blue"; // 仮のコード
+    }
     
     // 現在表示しているコンテンツの状態を追加
     const [displayedContent, setDisplayedContent] = useState<string>("");
@@ -49,6 +77,7 @@ export default function Calendar(){
         setCurrentDate(prev => new Date(prev.getFullYear(), prev.getMonth() + 1));
     }
 
+
     const generateCalendarDays=(date: Date)=>{
         const month = date.getMonth();
         const year = date.getFullYear();
@@ -67,8 +96,21 @@ export default function Calendar(){
             //     color: "",
             //     content: `2023年${month + 1}月${i}日のコンテンツ`
             // });
-            daysArray.push(i)
-        }
+            // const dateString = `${year}-${(month + 1).toString().padStart(2, '0')}-${i.toString().padStart(2, '0')}`;
+            // const calendarItem = calendarData.find((item: { date: string; }) => item.date.startsWith(dateString));
+            // const messageItem = messageData.find((item: { timestamp: string | string[]; }) => item.timestamp.includes(`${i}日`));
+            // if(calendarItem){
+            //     const dayObject: DayObject = {
+            //         color: getEmotionalColor(calendarItem.emotionalValue),
+            //         content: messageItem ? messageItem.content : ''
+            //     };
+            //     daysArray.push(dayObject);
+            // } else {
+                daysArray.push(i);
+            }
+        
+            // daysArray.push(i)
+        // }
         return daysArray;
     } 
 
@@ -107,28 +149,30 @@ export default function Calendar(){
                         </div>
                     ))} 
                 </div>
-                {/* {calendarDays.map((item, index) => {
-                    if (item === null ) { // 0またはnullの場合の処理を追加
-                        return <div key={`empty-${index}`} className={styles.day}></div>;
-                    }
-                    const day = typeof item === "number" ? item : item.content.split('日')[0].split('月')[1]; 
-                    return (
-                        <div 
-                            key={typeof item === "number" ? item : `day-${day}`}
-                            className={styles.day}
-                            onClick={() => typeof item !== "number" && item && handleDayClick(item)}
-                            style={{ color: typeof item !== "number" && item ? item.color : "inherit" }}
-                        >
-                            {day}
-                        </div>
-                    );
-                })} */}
+                {/* <div className={styles.days}>
+                    {calendarDays.map((day, index) => {
+                        if (typeof day === 'number' || day === null) {
+                            return (
+                                <div key={day !== null ? day : `empty-${index}`} className={styles.day}>
+                                    {day}
+                                </div>
+                            );
+                        } else {
+                            return (
+                                <div 
+                                    key={`day-${index}`}
+                                    className={styles.day}
+                                    onClick={() => handleDayClick(day)}
+                                    style={{ backgroundColor: day.color }}
+                                >
+                                    {index + 1}
+                                </div>
+                            );
+                        }
+                    })} 
+                </div> */}
+                
             </div>
-
-            {/* contentの表示部分を追加 */}
-            {/* <div className={styles.contentDisplay}>
-                {displayedContent}
-            </div> */}
         </div>
             
         
