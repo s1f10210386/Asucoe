@@ -13,5 +13,14 @@ datasource db {
 model Message {
   id        Int      @id @default(autoincrement())
   content   String
-  timestamp String 
+  timestamp String
+  calendar  Calendar @relation(fields: [calendarId], references: [id])
+  calendarId Int     @unique
+}
+
+model Calendar {
+  id              Int       @id @default(autoincrement())
+  date            DateTime
+  emotionalValue  Int
+  message         Message? 
 }

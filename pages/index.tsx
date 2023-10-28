@@ -1,11 +1,11 @@
-import { CommentBox } from "@/component/CommentBox/CommentBox"
+import { CommentBox } from "@/component/Home/CommentBox/CommentBox"
 import styles from "./index.module.css"
-import { Main } from "@/component/Main/Main"
-import { TopBar } from "@/component/TopBar/TopBar"
+import { Main } from "@/component/Home/Main/Main"
+import { TopBar } from "@/component/Home/TopBar/TopBar"
 import { useAtom } from "jotai";
 import { commentBoxShowAtom, showModelAtom } from "@/utils/jotai";
 import { useEffect, useState } from "react";
-import { ShowModel } from "@/component/ShowModel.tsx/ShowModel";
+import { ShowModel } from "@/component/Home/ShowModel/ShowModel";
 export default function Home(){
     const [showModel, setShowModel] = useAtom(showModelAtom);
     const [commentBoxShow, setCommentBoxShow] = useAtom(commentBoxShowAtom);
@@ -58,12 +58,12 @@ export default function Home(){
         <div>
           <TopBar />
           <Main />
-          {/* <CommentBox />   */}
-          {commentBoxShow && (
+          <CommentBox />  
+          {/* {commentBoxShow && (
             <div>
               <CommentBox />
             </div>        
-          )}
+          )} */}
             
         </div>
       )}
