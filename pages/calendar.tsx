@@ -11,11 +11,7 @@ type DayObject ={
 }
 
 
-export default function Calendar(){
-
-    const [calendarData, setCalendarData] = useState<any>([]);
-    const [messageData, setMessageData] = useState<any>([]);
-    
+export default function Calendar(){   
 
     const getCalendar = async()=>{
         const responce = await fetch('/api/getDB',{
@@ -75,7 +71,7 @@ export default function Calendar(){
         note?: string;
         color?: string;
     }
-    const eventData: DayData[] = useMemo(()=>[
+    const eventData: DayData[] = [
         {
             date: new Date(2023, 9, 20), //月は0から始まるので１０月
             // date: "2023-11-20",
@@ -85,13 +81,19 @@ export default function Calendar(){
         {
             date: new Date(2023, 10, 17), //月は0から始まるので１０月
             
-            note: "aaa",
+            note: "bbb",
             color: "#4c4d45"
         }
-    ],[]);
-
-    
-    console.log("eventDate",eventData)
+    ]
+    const isToday = (date: Date | null)=>{
+        if(!date) return false;
+        const today = new Date();
+        return (
+            date.getDate() === today.getDate() &&
+            date.getMonth() === today.getMonth() &&
+            date.getFullYear() === today.getFullYear()
+        );
+    }
 
 
     const generateCalendarDays = (date: Date): DayData[]=>{
@@ -121,33 +123,23 @@ export default function Calendar(){
             if(dataForDay){
                 daysArray.push(dataForDay);
             }else{
-                daysArray.push({date:currentDate,color: "rgb(234, 234, 243)"})
+                daysArray.push({
+                    date:currentDate,
+                    color: isToday(currentDate) ? "white" : "rgb(234, 234, 243)"
+                })
             }
         }
         return daysArray;
     }
     const calendarDays = generateCalendarDays(currentDate)
-    // const [calendarDays, setCalendarDays] = useState<DayData[]>([]);
-    // useEffect(() => {
-    //     setCalendarDays(generateCalendarDays(currentDate));
-    // }, [generateCalendarDays, currentDate]);
 
-    const [selectedNote, setSelectedNote] = useState<string | null>(null);
+    const [selectedMessage, setSelectedMessage] = useState<string | null>(null);
 
     const handleDayClick = (day: DayData) => {
-        setSelectedNote(day.note || null);
+        setSelectedMessage(day.note || null);
     };
 
-    const isToday = (date: Date | null)=>{
-        if(!date) return false;
-        const today = new Date();
-        return (
-            date.getDate() === today.getDate() &&
-            date.getMonth() === today.getMonth() &&
-            date.getFullYear() === today.getFullYear()
-        );
-    }
-
+    
     return (
         <div className={styles.container}>
             <Link href="/" passHref>
@@ -173,7 +165,7 @@ export default function Calendar(){
                     {calendarDays.map((day,index)=>(
                         <div 
                             key={index} 
-                            className={`${styles.day} ${isToday(day.date) ? styles.today : ''}`} 
+                            className={styles.day}  
                             onClick={() => handleDayClick(day)}
                             style={{ backgroundColor : day.color || 'rgb(234, 234, 243)'}}
         
@@ -186,9 +178,9 @@ export default function Calendar(){
                 
                 
             </div>
-            {selectedNote &&(
+            {selectedMessage &&(
                     <div className={styles.noteDisplay}>
-                        {selectedNote}
+                        {selectedMessage}
                     </div>
             )}
         </div>
