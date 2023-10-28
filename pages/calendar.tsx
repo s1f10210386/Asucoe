@@ -89,25 +89,12 @@ export default function Calendar(){
             color: "#4c4d45"
         }
     ],[]);
-    // const eventData: DayData[] = useMemo(() => {
-    //     // DBから取得したカレンダーデータとメッセージデータを元にイベントデータを生成
-    //     const generatedData: DayData[] = [];
-    //     calendarData.forEach((item: any) => {
-    //         const dateObj = new Date(item.date);
-    //         const relatedMessage = messageData.find((message: any) => message.calendarId === item.id);
-    //         generatedData.push({
-    //             date: dateObj,
-    //             note: relatedMessage ? relatedMessage.content : null,
-    //             color: item.emotionalValue // こちらのロジックは適宜変更が必要
-    //         });
-    //     });
-    //     return generatedData;
-    // }, [calendarData, messageData]);
+
     
     console.log("eventDate",eventData)
 
 
-    const generateCalendarDays = useCallback((date: Date): DayData[]=>{
+    const generateCalendarDays = (date: Date): DayData[]=>{
         const month = date.getMonth();
         const year = date.getFullYear()
 
@@ -138,12 +125,12 @@ export default function Calendar(){
             }
         }
         return daysArray;
-    },[eventData])
-    // const calendarDays = generateCalendarDays(currentDate)
-    const [calendarDays, setCalendarDays] = useState<DayData[]>([]);
-    useEffect(() => {
-        setCalendarDays(generateCalendarDays(currentDate));
-    }, [generateCalendarDays, currentDate]);
+    }
+    const calendarDays = generateCalendarDays(currentDate)
+    // const [calendarDays, setCalendarDays] = useState<DayData[]>([]);
+    // useEffect(() => {
+    //     setCalendarDays(generateCalendarDays(currentDate));
+    // }, [generateCalendarDays, currentDate]);
 
     const [selectedNote, setSelectedNote] = useState<string | null>(null);
 
