@@ -16,40 +16,91 @@ export function CommentBox(){
     const [commentBoxShow, setCommentBoxShow] = useAtom(commentBoxShowAtom);
 
 
-    const addMessage=async(messageObject: {content:string, timestamp:string})=>{
-        console.log('addMessage')
-        const responce = await fetch(`/api/addMessage`,{
+    // type MessageObject ={
+    //     content :string;
+    //     timestamp: string;
+    //     calendarId: number;
+    // }
+    // const addMessage=async(messageObject: MessageObject)=>{
+    //     console.log('addMessage')
+    //     const responce = await fetch(`/api/addMessage`,{
+    //         method: 'POST',
+    //         headers:{
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body:JSON.stringify(messageObject),
+    //     })
+
+    //     console.log("addMessage responce",responce)
+    //     const data = await responce.json()
+    //     const DB_message = data.content
+    //     const DB_timestamp = data.timestamp
+    //     const DB_calendarId = data.calendarId
+
+        
+    //     return {
+    //         content: DB_message,
+    //         timestamp:DB_timestamp,
+    //         calendarId: DB_calendarId
+    //     };
+    // }
+
+    // const run =async()=>{
+    //     if(messageContent === "")return;
+    //     const now = getCurrentTimestamp()
+    //     const messageObject={
+    //         content:messageContent,
+    //         timestamp: now,
+    //         calendarId:1
+    //     }
+    //     const newMessageObject = await addMessage(messageObject)
+    //     setMessageList((prevMessageList) => [...prevMessageList,newMessageObject])
+    //     setMsseageContent("")
+
+    //     setShowModel(true)
+    //     setCommentBoxShow(false)
+    // }
+
+    type CalendarObject = {
+        date: string;
+        content: string;
+        timestamp: string;
+    }
+
+    const addCalendar = async(calendarObject: CalendarObject)=>{
+        const response = await fetch('/api/postDB_message_calendar',{
             method: 'POST',
             headers:{
                 'Content-Type': 'application/json',
             },
-            body:JSON.stringify(messageObject),
+            body: JSON.stringify(calendarObject),
         })
 
-        console.log("addMessage responce",responce)
-        const data = await responce.json()
-        const DB_message = data.content
-        const DB_timestamp = data.timestamp
-
-        
-        return {
-            content: DB_message,
-            timestamp:DB_timestamp
-        };
+        const data = await response.json();
+        const DB_calendar = data.calendar;
+        console.log("DB_calendar",DB_calendar)
+        const DB_message = data.message;
+        console.log("DB_message",DB_message)
+        return{
+            calendar: DB_calendar,
+            message: DB_message
+        }
     }
 
-    const run =async()=>{
-        if(messageContent === "")return;
-        const now = getCurrentTimestamp()
-        const messageObject={
+    const run = async()=>{
+        if(messageContent === "") return;
+        const nowString = getCurrentTimestamp();
+        const now = new Date().toISOString()
+        const calendarObject ={
+            date:now,
             content:messageContent,
-            timestamp: now
+            timestamp: nowString,
         }
-        const newMessageObject = await addMessage(messageObject)
-        setMessageList((prevMessageList) => [...prevMessageList,newMessageObject])
-        setMsseageContent("")
-
-        setShowModel(true)
+        const newCalendarData = await addCalendar(calendarObject)
+        const MessageObject = newCalendarData.message
+        setMessageList((prevMessageList)=>[...prevMessageList, MessageObject]);
+        setMsseageContent("");
+        setShowModel(true);
         setCommentBoxShow(false)
     }
 

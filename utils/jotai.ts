@@ -3,6 +3,7 @@ import { atom } from "jotai";
 type Message ={
     content: string;
     timestamp: string;
+    calendarId: number
 }
 
 export const messageListAtom = atom<Message[]>([]);

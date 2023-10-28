@@ -9,20 +9,23 @@ export function Main(){
     const [commentBoxShow, setCommentBoxShow] = useAtom(commentBoxShowAtom);
     const containerRef = useRef<HTMLDivElement>(null); 
 
-
     const getMessages= async()=>{
-        const response = await fetch(`/api/getMessages`,{
+        const response = await fetch(`/api/getDB`,{
             method: 'GET',
             headers:{
                 'Content-Type': 'application/json',
             },
-    
-        });
+        })
         const data = await response.json()
+        const DB_calendar = data.calendar;
+        const DB_messages = data.messages;
+        // console.log('DB_calendar',DB_calendar)
+        // console.log('DB_messages',DB_messages)
 
-        const combinedData = data.map((item:any)=>({
+        const combinedData = DB_messages.map((item:any)=>({
             content : item.content,
-            timestamp:item.timestamp
+            timestamp:item.timestamp,
+            calendarId: item.calendarId
         }))
         return combinedData;
     }

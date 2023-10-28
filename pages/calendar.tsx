@@ -2,7 +2,7 @@ import Link from "next/link"
 import styles from "./calendar.module.css"
 import { IconButton } from "@mui/material"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 type DayObject ={
@@ -12,6 +12,23 @@ type DayObject ={
 
 
 export default function Calendar(){
+
+    // const [calendarDate, setCalendarDate] = useState([]);
+
+    // useEffect(()=>{
+    //     async function  fetchCalendarDate() {
+    //         try{
+    //             const response = await fetch('/api/getCalendarDate');
+    //             const date = await response.json()
+    //             setCalendarDate(date);
+    //         }catch(error){
+    //             console.error("Error fetching calendar date:", error)
+    //         }
+    //     }
+    //     fetchCalendarDate()
+    // },[])
+
+    // console.log(calendarDate)
     
     // 現在表示しているコンテンツの状態を追加
     const [displayedContent, setDisplayedContent] = useState<string>("");
