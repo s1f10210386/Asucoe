@@ -2,7 +2,7 @@ import Link from "next/link"
 import styles from "./calendar.module.css"
 import { IconButton } from "@mui/material"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 type DayObject ={
@@ -42,16 +42,16 @@ export default function Calendar(){
         return { combinedData_Calendar, combinedDate_messages}
     }
     
-    useEffect(()=>{
-        const fetchDB = async()=>{
-            const DB = await getCalendar();
-            // console.log("calendar",DB.combinedData_Calendar)
-            // console.log("message",DB.combinedDate_messages)
-            setCalendarData(DB.combinedData_Calendar)
-            setMessageData(DB.combinedDate_messages);
-        }
-        fetchDB()
-    });
+    // useEffect(()=>{
+    //     const fetchDB = async()=>{
+    //         const DB = await getCalendar();
+    //         // console.log("calendar",DB.combinedData_Calendar)
+    //         // console.log("message",DB.combinedDate_messages)
+    //         setCalendarData(DB.combinedData_Calendar)
+    //         setMessageData(DB.combinedDate_messages);
+    //     }
+    //     fetchDB()
+    // });
         
     const [currentDate, setCurrentDate] = useState(new Date());
     const days = ["日", "月", "火", "水", "木", "金", "土"];
@@ -71,35 +71,43 @@ export default function Calendar(){
 
     type DayData = {
         date: Date | null;
+        // date: string | null;
         note?: string;
+        color?: string;
     }
-    const monthData: DayData[] = [
+    const eventData: DayData[] = useMemo(()=>[
         {
-            date: new Date(2023, 9, 29),
-            note: "aaa"
+            date: new Date(2023, 9, 20), //月は0から始まるので１０月
+            // date: "2023-11-20",
+            note: "aaa",
+            color: "#e8f07b"
+        },
+        {
+            date: new Date(2023, 10, 17), //月は0から始まるので１０月
+            
+            note: "aaa",
+            color: "#4c4d45"
         }
-    ];
-    // const monthData : DayData[] = [...];
+    ],[]);
+    // const eventData: DayData[] = useMemo(() => {
+    //     // DBから取得したカレンダーデータとメッセージデータを元にイベントデータを生成
+    //     const generatedData: DayData[] = [];
+    //     calendarData.forEach((item: any) => {
+    //         const dateObj = new Date(item.date);
+    //         const relatedMessage = messageData.find((message: any) => message.calendarId === item.id);
+    //         generatedData.push({
+    //             date: dateObj,
+    //             note: relatedMessage ? relatedMessage.content : null,
+    //             color: item.emotionalValue // こちらのロジックは適宜変更が必要
+    //         });
+    //     });
+    //     return generatedData;
+    // }, [calendarData, messageData]);
+    
+    console.log("eventDate",eventData)
 
-    // const generateCalendarDays=(date: Date)=>{
-    //     const month = date.getMonth();
-    //     const year = date.getFullYear();
-        
-    //     const daysInMonth = getDaysInMonth(month + 1, year);
-    //     console.log("daysInMonth",daysInMonth)
-    //     const firstDayOfMonth = new Date(year, month, 1).getDay();
-    //     const daysArray = [];
-    //     for(let i=0; i< firstDayOfMonth;i++){
-    //         daysArray.push(null)
-    //     }
-    //     for(let i= 1; i<= daysInMonth; i++){
-    //         daysArray.push(i);
-    //     }
-    //     return daysArray;
-    // } 
-    // const calendarDays = generateCalendarDays(currentDate);
 
-    const generateCalendarDays = (date: Date): DayData[]=>{
+    const generateCalendarDays = useCallback((date: Date): DayData[]=>{
         const month = date.getMonth();
         const year = date.getFullYear()
 
@@ -114,16 +122,28 @@ export default function Calendar(){
 
         for(let i = 1; i<= daysInMonth; i++){
             const currentDate = new Date(year, month, i);
-            const dataForDay = monthData.find(data =>data.date && data.date.getDate()===i);
+            console.log("month",month)
+            const dataForDay = eventData.find(data => 
+                data.date && 
+                data.date.getDate() === i && 
+                data.date.getMonth() === month && 
+                data.date.getFullYear() === year
+            );
+            console.log(dataForDay)
+            
             if(dataForDay){
                 daysArray.push(dataForDay);
             }else{
-                daysArray.push({date:currentDate})
+                daysArray.push({date:currentDate,color: "rgb(234, 234, 243)"})
             }
         }
         return daysArray;
-    }
-    const calendarDays = generateCalendarDays(currentDate)
+    },[eventData])
+    // const calendarDays = generateCalendarDays(currentDate)
+    const [calendarDays, setCalendarDays] = useState<DayData[]>([]);
+    useEffect(() => {
+        setCalendarDays(generateCalendarDays(currentDate));
+    }, [generateCalendarDays, currentDate]);
 
     const [selectedNote, setSelectedNote] = useState<string | null>(null);
 
@@ -131,6 +151,15 @@ export default function Calendar(){
         setSelectedNote(day.note || null);
     };
 
+    const isToday = (date: Date | null)=>{
+        if(!date) return false;
+        const today = new Date();
+        return (
+            date.getDate() === today.getDate() &&
+            date.getMonth() === today.getMonth() &&
+            date.getFullYear() === today.getFullYear()
+        );
+    }
 
     return (
         <div className={styles.container}>
@@ -153,18 +182,17 @@ export default function Calendar(){
                 <div className={styles.daysHeader}>
                     {days.map(day => <div key={day} className={styles.dayHeader}>{day}</div>)}
                 </div>
-                {/* <div className={styles.days}>
-                    {calendarDays.map((day, index) => (
-                        <div key={day !== null ? day : `empty-${index}`} className={styles.day}>
-                            {day}
-                        </div>
-                    ))} 
-                </div> */}
                 <div className={styles.days}>
                     {calendarDays.map((day,index)=>(
-                        <div key={index} className={styles.day} onClick={() => handleDayClick(day)}>
+                        <div 
+                            key={index} 
+                            className={`${styles.day} ${isToday(day.date) ? styles.today : ''}`} 
+                            onClick={() => handleDayClick(day)}
+                            style={{ backgroundColor : day.color || 'rgb(234, 234, 243)'}}
+        
+                        >
+                            
                             {day.date ? day.date.getDate() : ""}
-                            {/* {day.note && <p>{day.note}</p>} */}
                         </div>
                     ))}
                 </div>
