@@ -53,14 +53,6 @@ export default function Calendar(){
         fetchDB()
     });
         
-    const getEmotionalColor = (value: number) => {
-        // ここでemotionalValueに応じた色を返すロジックを書くことができます
-        return value === 0 ? "grey" : "blue"; // 仮のコード
-    }
-    
-    // 現在表示しているコンテンツの状態を追加
-    const [displayedContent, setDisplayedContent] = useState<string>("");
-
     const [currentDate, setCurrentDate] = useState(new Date());
     const days = ["日", "月", "火", "水", "木", "金", "土"];
 
@@ -77,49 +69,68 @@ export default function Calendar(){
         setCurrentDate(prev => new Date(prev.getFullYear(), prev.getMonth() + 1));
     }
 
-
-    const generateCalendarDays=(date: Date)=>{
-        const month = date.getMonth();
-        const year = date.getFullYear();
-        
-        const daysInMonth = getDaysInMonth(month + 1, year);
-        console.log("daysInMonth",daysInMonth)
-        const firstDayOfMonth = new Date(year, month, 1).getDay();
-        // console.log("first",firstDayOfMonth)
-        const daysArray = [];
-        for(let i=0; i< firstDayOfMonth;i++){
-            daysArray.push(null)
-            // daysArray.push(0);
-        }
-        for(let i= 1; i<= daysInMonth; i++){
-            // daysArray.push({
-            //     color: "",
-            //     content: `2023年${month + 1}月${i}日のコンテンツ`
-            // });
-            // const dateString = `${year}-${(month + 1).toString().padStart(2, '0')}-${i.toString().padStart(2, '0')}`;
-            // const calendarItem = calendarData.find((item: { date: string; }) => item.date.startsWith(dateString));
-            // const messageItem = messageData.find((item: { timestamp: string | string[]; }) => item.timestamp.includes(`${i}日`));
-            // if(calendarItem){
-            //     const dayObject: DayObject = {
-            //         color: getEmotionalColor(calendarItem.emotionalValue),
-            //         content: messageItem ? messageItem.content : ''
-            //     };
-            //     daysArray.push(dayObject);
-            // } else {
-                daysArray.push(i);
-            }
-        
-            // daysArray.push(i)
-        // }
-        return daysArray;
-    } 
-
-    const handleDayClick = (day: DayObject)=>{
-        if(day && day.content){
-            setDisplayedContent(day.content)
-        }
+    type DayData = {
+        date: Date | null;
+        note?: string;
     }
-    const calendarDays = generateCalendarDays(currentDate);
+    const monthData: DayData[] = [
+        {
+            date: new Date(2023, 9, 29),
+            note: "aaa"
+        }
+    ];
+    // const monthData : DayData[] = [...];
+
+    // const generateCalendarDays=(date: Date)=>{
+    //     const month = date.getMonth();
+    //     const year = date.getFullYear();
+        
+    //     const daysInMonth = getDaysInMonth(month + 1, year);
+    //     console.log("daysInMonth",daysInMonth)
+    //     const firstDayOfMonth = new Date(year, month, 1).getDay();
+    //     const daysArray = [];
+    //     for(let i=0; i< firstDayOfMonth;i++){
+    //         daysArray.push(null)
+    //     }
+    //     for(let i= 1; i<= daysInMonth; i++){
+    //         daysArray.push(i);
+    //     }
+    //     return daysArray;
+    // } 
+    // const calendarDays = generateCalendarDays(currentDate);
+
+    const generateCalendarDays = (date: Date): DayData[]=>{
+        const month = date.getMonth();
+        const year = date.getFullYear()
+
+        const daysInMonth = getDaysInMonth(month + 1, year);
+        const firstDayOfMonth = new Date(year, month, 1).getDay();
+
+        const daysArray: DayData[] = [];
+
+        for(let i = 0; i < firstDayOfMonth; i++) {
+            daysArray.push({ date: null });
+        }
+
+        for(let i = 1; i<= daysInMonth; i++){
+            const currentDate = new Date(year, month, i);
+            const dataForDay = monthData.find(data =>data.date && data.date.getDate()===i);
+            if(dataForDay){
+                daysArray.push(dataForDay);
+            }else{
+                daysArray.push({date:currentDate})
+            }
+        }
+        return daysArray;
+    }
+    const calendarDays = generateCalendarDays(currentDate)
+
+    const [selectedNote, setSelectedNote] = useState<string | null>(null);
+
+    const handleDayClick = (day: DayData) => {
+        setSelectedNote(day.note || null);
+    };
+
 
     return (
         <div className={styles.container}>
@@ -142,37 +153,29 @@ export default function Calendar(){
                 <div className={styles.daysHeader}>
                     {days.map(day => <div key={day} className={styles.dayHeader}>{day}</div>)}
                 </div>
-                <div className={styles.days}>
+                {/* <div className={styles.days}>
                     {calendarDays.map((day, index) => (
                         <div key={day !== null ? day : `empty-${index}`} className={styles.day}>
                             {day}
                         </div>
                     ))} 
-                </div>
-                {/* <div className={styles.days}>
-                    {calendarDays.map((day, index) => {
-                        if (typeof day === 'number' || day === null) {
-                            return (
-                                <div key={day !== null ? day : `empty-${index}`} className={styles.day}>
-                                    {day}
-                                </div>
-                            );
-                        } else {
-                            return (
-                                <div 
-                                    key={`day-${index}`}
-                                    className={styles.day}
-                                    onClick={() => handleDayClick(day)}
-                                    style={{ backgroundColor: day.color }}
-                                >
-                                    {index + 1}
-                                </div>
-                            );
-                        }
-                    })} 
                 </div> */}
+                <div className={styles.days}>
+                    {calendarDays.map((day,index)=>(
+                        <div key={index} className={styles.day} onClick={() => handleDayClick(day)}>
+                            {day.date ? day.date.getDate() : ""}
+                            {/* {day.note && <p>{day.note}</p>} */}
+                        </div>
+                    ))}
+                </div>
+                
                 
             </div>
+            {selectedNote &&(
+                    <div className={styles.noteDisplay}>
+                        {selectedNote}
+                    </div>
+            )}
         </div>
             
         

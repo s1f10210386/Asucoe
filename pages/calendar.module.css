@@ -40,3 +40,8 @@
 .days > div:active {
     background-color: #ddd;
 }
+
+
+.noteDisplay{
+    background-color: aliceblue;
+}
