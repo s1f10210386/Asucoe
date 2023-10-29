@@ -60,14 +60,13 @@ export default function Calendar(){
     },[]);
 
     const emotionalValueToColor = (value: number) => {
-        if(value === 1) return '#e8e7ec'; 
-        if(value === 2) return "#6b3c79";
-        if(value === 3) return "yellow";
-        if(value === 4) return "black";
-        if(value === 5) return "red"
-        return "blue"
-
-      };
+        if(value === 1) return '#EAF4FF'; 
+        if(value === 2) return "#D4E8FF";
+        if(value === 3) return "#BFDFFF";
+        if(value === 4) return "#A9D6FF";
+        if(value === 5) return "#93CEFF";
+    };
+    
       
     useEffect(()=>{
         const eventData = DbCalendarData.map(calendarItem =>{
