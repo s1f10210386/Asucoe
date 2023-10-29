@@ -89,10 +89,11 @@ export function CommentBox(){
         const MessageObject = newCalendarData.message
         setMessageList((prevMessageList)=>[...prevMessageList, MessageObject]);
         setMsseageContent("");
-        setShowModel(true);
+        
 
         setCommentBoxShow(false);
-        // localStorage.setItem('commentBoxShow', 'false');
+        setShowModel(true);
+        // localStorage.setItem('commentBoxShow', "false");
         // console.log("保存された値",commentBoxShow)
         // runGPT(newCalendarData.calendar.id);
     }
@@ -104,7 +105,7 @@ export function CommentBox(){
     //     if (storedIsActive) {
     //     setCommentBoxShow(storedIsActive === 'true');
     //     }
-    // }, []);
+    // }, [setCommentBoxShow]);
 
     return (
         <div className={styles.container}>
