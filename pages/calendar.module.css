@@ -3,7 +3,7 @@
     width: 100vw;
     /* display: flex;
     flex-direction: column; */
-    background-color: white;
+    background-color: rgb(255, 255, 255);
   } 
 
 .calendar {
@@ -15,7 +15,8 @@
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
     /* width: 300px; */
-    background-color: rgb(234, 234, 243);
+    /* height: 67vh; */
+    background-color: rgb(255, 253, 253);
     
 }
 
@@ -47,5 +48,8 @@
 }
 
 .noteDisplay{
-    background-color: aliceblue;
+    /* padding-top: 10%; */
+    /* height: 40vh; */
+    text-align: center;
+    background-color: rgb(255, 255, 255);
 }
