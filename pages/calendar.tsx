@@ -4,6 +4,7 @@ import { IconButton } from "@mui/material"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useCallback, useEffect, useMemo, useState } from "react";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import HomeIcon from '@mui/icons-material/Home';
 
 
 export default function Calendar(){
@@ -58,7 +59,7 @@ export default function Calendar(){
     },[]);
 
     const emotionalValueToColor = (value: number) => {
-        if(value === 0) return '#ffe2e2'; 
+        if(value === 0) return '#e8e7ec'; 
         // 他のemotionalValueの場合も追加できます
         // return 'rgb(234, 234, 243)'; // 例としてのデフォルト色
       };
@@ -137,7 +138,7 @@ export default function Calendar(){
             }else{
                 daysArray.push({
                     date:currentDate,
-                    color: isToday(currentDate) ? "white" : "rgb(230, 248, 242)",
+                    color: isToday(currentDate) ? "white" : "rgb(255, 255, 255)",
                     note : isToday(currentDate) ? "今日" : "イベントはまだ書かれていないです"
                 })
             }
@@ -152,26 +153,34 @@ export default function Calendar(){
         setSelectedMessage(day.note || null);
     };
 
+
     return (
         <div className={styles.container}>
+            <div style={{textAlign:"center"}}>
             <Link href="/" passHref>
                 <IconButton aria-label="calendar" size="large" style={{ marginLeft: 'auto', padding: '8px', color: '#000000' }}>
-                    <ArrowBackIcon />
+                    <HomeIcon />
                 </IconButton>
             </Link>
+            </div>
+            
             <div className={styles.calendar}>
-                <div style={{display:"flex"}}>
+                <div className={styles.calendarHeader}>
                 <IconButton onClick={prevMonth}>
                     <ArrowBackIcon/>
                 </IconButton>
-                <h2>{currentDate.getFullYear()}年 {currentDate.getMonth() + 1}月</h2>
+                <h2 className={styles.calendarMonth}>
+                    {currentDate.getFullYear()}年 {currentDate.getMonth() + 1}月
+                </h2>
                 <IconButton onClick={nextMonth}>
                     <ArrowForwardIcon/>
                 </IconButton>
                 </div>
                 
                 <div className={styles.daysHeader}>
-                    {days.map(day => <div key={day} className={styles.dayHeader}>{day}</div>)}
+                    {days.map(day => <div key={day} className={styles.dayHeader}>
+                                        {day}
+                                    </div>)}
                 </div>
                 <div className={styles.days}>
                     {calendarDays.map((day,index)=>(
@@ -179,18 +188,20 @@ export default function Calendar(){
                             key={index} 
                             className={styles.day}  
                             onClick={() => handleDayClick(day)}
-                            style={{ backgroundColor : day.color || 'rgb(234, 234, 243)'}}
+                            style={{ backgroundColor : day.color || 'rgb(255, 255, 255)'}}
                         >
                             {day.date ? day.date.getDate() : ""}
                         </div>
                     ))}
                 </div>
             </div>
-            {selectedMessage &&(
+            <div>
+                {selectedMessage &&(
                     <div className={styles.noteDisplay}>
                         {selectedMessage}
                     </div>
-            )}
+                )}
+            </div>    
         </div>
     )
 }
