@@ -58,7 +58,7 @@ export default function Calendar(){
     },[]);
 
     const emotionalValueToColor = (value: number) => {
-        if(value === 0) return 'blue'; 
+        if(value === 0) return '#ddb4b4'; 
         // 他のemotionalValueの場合も追加できます
         // return 'rgb(234, 234, 243)'; // 例としてのデフォルト色
       };

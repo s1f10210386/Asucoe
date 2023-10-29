@@ -15,52 +15,6 @@ export function CommentBox(){
     const [showModel, setShowModel] = useAtom(showModelAtom);
     const [commentBoxShow, setCommentBoxShow] = useAtom(commentBoxShowAtom);
 
-
-    // type MessageObject ={
-    //     content :string;
-    //     timestamp: string;
-    //     calendarId: number;
-    // }
-    // const addMessage=async(messageObject: MessageObject)=>{
-    //     console.log('addMessage')
-    //     const responce = await fetch(`/api/addMessage`,{
-    //         method: 'POST',
-    //         headers:{
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body:JSON.stringify(messageObject),
-    //     })
-
-    //     console.log("addMessage responce",responce)
-    //     const data = await responce.json()
-    //     const DB_message = data.content
-    //     const DB_timestamp = data.timestamp
-    //     const DB_calendarId = data.calendarId
-
-        
-    //     return {
-    //         content: DB_message,
-    //         timestamp:DB_timestamp,
-    //         calendarId: DB_calendarId
-    //     };
-    // }
-
-    // const run =async()=>{
-    //     if(messageContent === "")return;
-    //     const now = getCurrentTimestamp()
-    //     const messageObject={
-    //         content:messageContent,
-    //         timestamp: now,
-    //         calendarId:1
-    //     }
-    //     const newMessageObject = await addMessage(messageObject)
-    //     setMessageList((prevMessageList) => [...prevMessageList,newMessageObject])
-    //     setMsseageContent("")
-
-    //     setShowModel(true)
-    //     setCommentBoxShow(false)
-    // }
-
     type PostObject = {
         date: string;
         content: string;
@@ -87,6 +41,40 @@ export function CommentBox(){
         }
     }
 
+    const scoringGPT =async(content : string) =>{
+        const response= await fetch('/api/scoringGPTAPI', {
+            method: 'POST',
+            headers:{
+                'Content-Type' : 'application/json',
+            },
+            body: JSON.stringify(content),
+        })
+        const data = await response.json();
+        return data;
+    }
+
+    //emotinalValueをDBに追加
+    const addEmotinalValueDB =async( calendarId:number ,emotinalValue:number)=>{
+        const response = await fetch('/api/addEmotinalValueAPI',{
+            method: 'POST',
+            headers:{
+                'Content-Type' : 'application/json',
+            },
+            body: JSON.stringify({ id: calendarId, emotinalValue: emotinalValue}),
+        })
+        const data = await response.json();
+        return data;
+    }
+
+    const runGPT = async(calendarId: number)=>{
+        if(messageContent === "") return;
+        const GPTScoring = await scoringGPT(messageContent);
+        //ここでGPTscoringの内容をDBに接続
+        await addEmotinalValueDB(calendarId,GPTScoring);
+    }
+
+
+
     const run = async()=>{
         if(messageContent === "") return;
         const nowString = getCurrentTimestamp();
@@ -102,6 +90,8 @@ export function CommentBox(){
         setMsseageContent("");
         setShowModel(true);
         setCommentBoxShow(false)
+
+        runGPT(newCalendarData.calendar.id);
     }
 
     return (
