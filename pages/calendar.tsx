@@ -5,13 +5,23 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useCallback, useEffect, useMemo, useState } from "react";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
-type DayObject ={
-    color: string;
-    content: string;
-}
 
+export default function Calendar(){
+    type CalendarItem = {
+        date: string;
+        emotionalValue: number;
+        id: number;
+    }
+    
+    type MessageItem = {
+        content: string;
+        timestamp: string;
+        calendarId: number;
+    }
 
-export default function Calendar(){   
+    const [eventData, setEventData] = useState<any[]>([]);
+    const [DbCalendarData, setDbCalendarData] = useState<CalendarItem[]>([]);
+    const [DbMessageData, setDbMessageData] = useState<MessageItem[]>([]);
 
     const getCalendar = async()=>{
         const responce = await fetch('/api/getDB',{
@@ -22,12 +32,12 @@ export default function Calendar(){
         })
         const data = await responce.json()
         const DB_calendar = data.calendar;
-        console.log("DB_calendar",DB_calendar)
         const DB_messages = data.messages;
 
         const combinedData_Calendar = DB_calendar.map((item:any)=>({
             date : item.date,
             emotionalValue : item.emotionalValue,
+            id : item.id
         }))
 
         const combinedDate_messages = DB_messages.map((item:any)=>({
@@ -38,16 +48,36 @@ export default function Calendar(){
         return { combinedData_Calendar, combinedDate_messages}
     }
     
-    // useEffect(()=>{
-    //     const fetchDB = async()=>{
-    //         const DB = await getCalendar();
-    //         // console.log("calendar",DB.combinedData_Calendar)
-    //         // console.log("message",DB.combinedDate_messages)
-    //         setCalendarData(DB.combinedData_Calendar)
-    //         setMessageData(DB.combinedDate_messages);
-    //     }
-    //     fetchDB()
-    // });
+    useEffect(()=>{
+        const fetchDB = async()=>{
+            const DB = await getCalendar();
+            setDbCalendarData(DB.combinedData_Calendar)
+            setDbMessageData(DB.combinedDate_messages);
+        }
+        fetchDB()
+    },[]);
+
+    const emotionalValueToColor = (value: number) => {
+        if(value === 0) return 'blue'; 
+        // 他のemotionalValueの場合も追加できます
+        // return 'rgb(234, 234, 243)'; // 例としてのデフォルト色
+      };
+      
+    useEffect(()=>{
+        const eventData = DbCalendarData.map(calendarItem =>{
+            const message = DbMessageData.find(
+                messageItem => messageItem.calendarId === calendarItem.id
+            );
+            return{
+                date: new Date(calendarItem.date),
+                note: message ? message.content  : "",
+                color : emotionalValueToColor(calendarItem.emotionalValue)
+            }
+        })
+        setEventData(eventData);
+    },[DbCalendarData, DbMessageData])
+    
+
         
     const [currentDate, setCurrentDate] = useState(new Date());
     const days = ["日", "月", "火", "水", "木", "金", "土"];
@@ -67,24 +97,10 @@ export default function Calendar(){
 
     type DayData = {
         date: Date | null;
-        // date: string | null;
         note?: string;
         color?: string;
     }
-    const eventData: DayData[] = [
-        {
-            date: new Date(2023, 9, 20), //月は0から始まるので１０月
-            // date: "2023-11-20",
-            note: "aaa",
-            color: "#e8f07b"
-        },
-        {
-            date: new Date(2023, 10, 17), //月は0から始まるので１０月
-            
-            note: "bbb",
-            color: "#4c4d45"
-        }
-    ]
+    
     const isToday = (date: Date | null)=>{
         if(!date) return false;
         const today = new Date();
@@ -94,7 +110,6 @@ export default function Calendar(){
             date.getFullYear() === today.getFullYear()
         );
     }
-
 
     const generateCalendarDays = (date: Date): DayData[]=>{
         const month = date.getMonth();
@@ -111,21 +126,19 @@ export default function Calendar(){
 
         for(let i = 1; i<= daysInMonth; i++){
             const currentDate = new Date(year, month, i);
-            console.log("month",month)
             const dataForDay = eventData.find(data => 
                 data.date && 
                 data.date.getDate() === i && 
                 data.date.getMonth() === month && 
                 data.date.getFullYear() === year
             );
-            console.log(dataForDay)
-            
             if(dataForDay){
                 daysArray.push(dataForDay);
             }else{
                 daysArray.push({
                     date:currentDate,
-                    color: isToday(currentDate) ? "white" : "rgb(234, 234, 243)"
+                    color: isToday(currentDate) ? "white" : "rgb(234, 234, 243)",
+                    note : isToday(currentDate) ? "今日" : "イベントはまだ書かれていないです"
                 })
             }
         }
@@ -139,7 +152,6 @@ export default function Calendar(){
         setSelectedMessage(day.note || null);
     };
 
-    
     return (
         <div className={styles.container}>
             <Link href="/" passHref>
@@ -168,15 +180,11 @@ export default function Calendar(){
                             className={styles.day}  
                             onClick={() => handleDayClick(day)}
                             style={{ backgroundColor : day.color || 'rgb(234, 234, 243)'}}
-        
                         >
-                            
                             {day.date ? day.date.getDate() : ""}
                         </div>
                     ))}
                 </div>
-                
-                
             </div>
             {selectedMessage &&(
                     <div className={styles.noteDisplay}>
@@ -184,8 +192,6 @@ export default function Calendar(){
                     </div>
             )}
         </div>
-            
-        
     )
 }
 
