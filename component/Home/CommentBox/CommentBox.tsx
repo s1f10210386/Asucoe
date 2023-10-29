@@ -91,7 +91,7 @@ export function CommentBox(){
         setShowModel(true);
         setCommentBoxShow(false)
 
-        runGPT(newCalendarData.calendar.id);
+        // runGPT(newCalendarData.calendar.id);
     }
 
     return (
