@@ -1,5 +1,7 @@
 import { scoringGPT } from "@/utils/scoringGPT";
 import { NextApiRequest, NextApiResponse } from "next";
+import Configration from "openai"
+import OpenAIApi from "openai";
 
 export default async function  scoringTPT(req:NextApiRequest, res:NextApiResponse) {
     if(req.method === "POST"){
@@ -9,3 +11,5 @@ export default async function  scoringTPT(req:NextApiRequest, res:NextApiRespons
         res.status(405).end()
     }
 }
+
+
