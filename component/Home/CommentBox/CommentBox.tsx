@@ -6,6 +6,7 @@ import { Button, TextField } from "@mui/material";
 import { getCurrentTimestamp } from "@/utils/CurrentTime";
 import { useState } from "react";
 import SendIcon from '@mui/icons-material/Send';
+import React from "react";
 
 export function CommentBox(){
 
@@ -89,10 +90,21 @@ export function CommentBox(){
         setMessageList((prevMessageList)=>[...prevMessageList, MessageObject]);
         setMsseageContent("");
         setShowModel(true);
-        setCommentBoxShow(false)
 
-        runGPT(newCalendarData.calendar.id);
+        setCommentBoxShow(false);
+        localStorage.setItem('commentBoxShow', JSON.stringify(commentBoxShow));
+        console.log("保存された値",commentBoxShow)
+        // runGPT(newCalendarData.calendar.id);
     }
+    
+      // コンポーネントがマウントされた時にlocalStorageから値を読み込む
+    React.useEffect(() => {
+        const storedIsActive = localStorage.getItem('commentBoxShow');
+        console.log("読み込みされた値", storedIsActive);
+        if (storedIsActive) {
+        setCommentBoxShow(storedIsActive === 'true');
+        }
+    }, []);
 
     return (
         <div className={styles.container}>
@@ -111,9 +123,9 @@ export function CommentBox(){
                 <Button 
                     variant="contained" 
                     style={{ backgroundColor: '#91CAD3', color: 'white',borderRadius: '18px'  }}
-                    onClick={run} 
+                    onClick={run}
                     className={styles.sendButton}
-                    startIcon={<SendIcon/>}
+                    startIcon={<SendIcon />}
                 >
                 </Button>
             </div>
