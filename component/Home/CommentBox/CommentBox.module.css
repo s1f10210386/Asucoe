@@ -1,22 +1,22 @@
 .container{
     height: 10vh;
-    display: flex;
+    /* display: flex;
     justify-content: center;
-    align-items: flex-end;
+    align-items: flex-end; */
+    display:grid;
+    place-items: center;
+    
 }
 
 .inputContainer {
+    position: relative;
     display: flex;
     align-items: center;
     padding: 5px 10px;
     border-radius: 20px;
     width: 90%;
     background-color: #efefef;
-    transition: all 0.3s ease-in-out; /* スムーズな遷移 */
-}
-
-.inputContainer:hover {
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3); /* ホバー時のシャドウ */
+ 
 }
 
 .textFieldStyle {
@@ -37,6 +37,9 @@
 }
 
 .sendButton {
+    position:absolute;
+    bottom: 25px;
+    right: 35px;
     height: fit-content;
     margin: 0;
     padding: 8px 12px;
