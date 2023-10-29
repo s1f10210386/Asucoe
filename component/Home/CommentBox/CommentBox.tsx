@@ -33,9 +33,9 @@ export function CommentBox(){
 
         const data = await response.json();
         const DB_calendar = data.calendar;
-        console.log("DB_calendar",DB_calendar)
+        // console.log("DB_calendar",DB_calendar)
         const DB_message = data.message;
-        console.log("DB_message",DB_message)
+        // console.log("DB_message",DB_message)
         return{
             calendar: DB_calendar,
             message: DB_message
@@ -55,13 +55,13 @@ export function CommentBox(){
     }
 
     //emotinalValueをDBに追加
-    const addEmotinalValueDB =async( calendarId:number ,emotinalValue:number)=>{
-        const response = await fetch('/api/addEmotinalValueAPI',{
+    const addEmotinalValueDB =async( calendarId:number ,emotionalValue:number)=>{
+        const response = await fetch('/api/addEmotionalValueAPI',{
             method: 'POST',
             headers:{
                 'Content-Type' : 'application/json',
             },
-            body: JSON.stringify({ id: calendarId, emotinalValue: emotinalValue}),
+            body: JSON.stringify({ id: calendarId, emotionalValue: emotionalValue}),
         })
         const data = await response.json();
         return data;
@@ -69,9 +69,13 @@ export function CommentBox(){
 
     const runGPT = async(calendarId: number)=>{
         if(messageContent === "") return;
-        const GPTScoring = await scoringGPT(messageContent);
+        const GPTScoringValue:number = await scoringGPT(messageContent);
+        
+        console.log("GPTScoringVaule",GPTScoringValue);
+
+        console.log("calendarId", calendarId)
         //ここでGPTscoringの内容をDBに接続
-        await addEmotinalValueDB(calendarId,GPTScoring);
+        await addEmotinalValueDB(calendarId,GPTScoringValue);
     }
 
 
@@ -95,7 +99,7 @@ export function CommentBox(){
         setShowModel(true);
         // localStorage.setItem('commentBoxShow', "false");
         // console.log("保存された値",commentBoxShow)
-        // runGPT(newCalendarData.calendar.id);
+        runGPT(newCalendarData.calendar.id);
     }
     
       // コンポーネントがマウントされた時にlocalStorageから値を読み込む

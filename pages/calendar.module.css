@@ -22,7 +22,7 @@
 
 .calendarHeader{
     display: flex;
-    align-items: center; /* アイテムを中央揃え */
+    align-items: center;
     gap: 10vw; /* アイコンと日付の間のスペース */
 }
 
