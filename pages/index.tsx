@@ -58,12 +58,12 @@ export default function Home(){
         <div>
           <TopBar />
           <Main />
-          {/* <CommentBox />   */}
-          {commentBoxShow && (
+          <CommentBox />  
+          {/* {commentBoxShow && (
             <div>
               <CommentBox />
             </div>        
-          )}
+          )} */}
             
         </div>
       )}
