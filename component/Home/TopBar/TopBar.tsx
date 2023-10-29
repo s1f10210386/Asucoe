@@ -1,13 +1,11 @@
 import { messageListAtom } from "@/utils/jotai";
 import { useAtom } from "jotai";
 import styles from './TopBar.module.css'
-import { IconButton, Stack } from "@mui/material";
+import { IconButton, Stack, duration } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import InfoIcon from '@mui/icons-material/Info';
 import { motion, useAnimation } from "framer-motion";
-
-
 import Link from "next/link";
 import { useState } from "react";
 
@@ -15,20 +13,25 @@ import { useState } from "react";
 export function TopBar(){
     const [messageList] = useAtom(messageListAtom);
     const controls = useAnimation();
-    const [isExpanded, setIsExpanded] = useState(false); 
+    
+    const [isOpen, setIsOpen] = useState(false);
+    const toggleOpen = () => setIsOpen(!isOpen);
 
-    const toggleExpand = () => {
-        if (isExpanded) {
-            controls.start({ height: "5vh" });
-        } else {
-            controls.start({ height: "auto" });
-        }
-        setIsExpanded(!isExpanded);
-    }
-
+    
     return (
         <div className={styles.container}>
-            <motion.div className={styles.message} initial={{ height: "5vh" }} animate={controls} onClick={toggleExpand}>
+            <motion.div
+                className={styles.message}
+                initial={false}
+                animate={{ height: isOpen ? 'auto' : '30px' }}
+                transition={{ duration: 0.5 }}
+                onClick={ toggleOpen }
+                style={{
+                    overflow: 'hidden',
+                    cursor: 'pointer',
+                    transformOrigin:'top', //上を基準に下に拡張
+                }}
+            >
             {messageList.map((content, index)=>(
                 <div key={index}>
                     {index === messageList.length -1 &&(

@@ -10,12 +10,11 @@
     overflow: visible;
 }
 .message{
-
+    height: 5vh;    
     text-align: center;
     background-color: #ffffff;
     width: 100vw;
-    height: 5vh;
-    overflow: auto;/* 内容がはみ出したらスクロール */
+    overflow: auto; /*内容がはみ出したらスクロール */
     max-width: 80%;
     border-radius: 18px;
     margin:auto; /*真ん中に*/
