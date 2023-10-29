@@ -10,12 +10,11 @@
     overflow: visible;
 }
 .message{
-
+    height: 5vh;    
     text-align: center;
     background-color: #ffffff;
     width: 100vw;
-    height: 5vh;
-    overflow: auto;/* 内容がはみ出したらスクロール */
+    overflow: auto; /*内容がはみ出したらスクロール */
     max-width: 80%;
     border-radius: 18px;
     margin:auto; /*真ん中に*/
@@ -24,3 +23,14 @@
     font-size: large;
     font-weight: 500;
 }
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.5); 
+    z-index: 9999; 
+    pointer-events: none;
+  }
