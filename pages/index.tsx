@@ -6,6 +6,7 @@ import { useAtom } from "jotai";
 import { commentBoxShowAtom, showModelAtom } from "@/utils/jotai";
 import { useEffect, useState } from "react";
 import { ShowModel } from "@/component/Home/ShowModel/ShowModel";
+
 export default function Home(){
     const [showModel, setShowModel] = useAtom(showModelAtom);
     const [commentBoxShow, setCommentBoxShow] = useAtom(commentBoxShowAtom);
