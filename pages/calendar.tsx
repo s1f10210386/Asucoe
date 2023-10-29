@@ -58,7 +58,7 @@ export default function Calendar(){
     },[]);
 
     const emotionalValueToColor = (value: number) => {
-        if(value === 0) return '#ddb4b4'; 
+        if(value === 0) return '#ffe2e2'; 
         // 他のemotionalValueの場合も追加できます
         // return 'rgb(234, 234, 243)'; // 例としてのデフォルト色
       };
@@ -137,7 +137,7 @@ export default function Calendar(){
             }else{
                 daysArray.push({
                     date:currentDate,
-                    color: isToday(currentDate) ? "white" : "rgb(234, 234, 243)",
+                    color: isToday(currentDate) ? "white" : "rgb(230, 248, 242)",
                     note : isToday(currentDate) ? "今日" : "イベントはまだ書かれていないです"
                 })
             }

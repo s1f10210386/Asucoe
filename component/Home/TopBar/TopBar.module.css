@@ -12,7 +12,7 @@
 .message{
 
     text-align: center;
-    background-color: rgb(240, 215, 225);
+    background-color: #ffffff;
     width: 100vw;
     height: 5vh;
     overflow: auto;/* 内容がはみ出したらスクロール */
@@ -20,4 +20,7 @@
     border-radius: 18px;
     margin:auto; /*真ん中に*/
     z-index: 1;
+    border: 1px solid #b4b4b4;
+    font-size: large;
+    font-weight: 500;
 }

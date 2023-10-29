@@ -20,11 +20,20 @@
     
 }
 
-.daysHeader, .days {
+.daysHeader {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 10px;
     width: 100%;
+    background-color: rgb(194, 245, 245);
+}
+
+.days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    width: 100%;
+    background-color: rgb(255, 255, 255);
 }
 
 .daysHeader > div, .days > div {
