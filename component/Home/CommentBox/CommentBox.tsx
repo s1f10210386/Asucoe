@@ -4,7 +4,7 @@ import { useAtom } from "jotai";
 import styles from "./CommentBox.module.css"
 import { Button, TextField } from "@mui/material";
 import { getCurrentTimestamp } from "@/utils/CurrentTime";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SendIcon from '@mui/icons-material/Send';
 import React from "react";
 
@@ -89,22 +89,23 @@ export function CommentBox(){
         const MessageObject = newCalendarData.message
         setMessageList((prevMessageList)=>[...prevMessageList, MessageObject]);
         setMsseageContent("");
-        setShowModel(true);
+        
 
         setCommentBoxShow(false);
-        localStorage.setItem('commentBoxShow', JSON.stringify(commentBoxShow));
-        console.log("保存された値",commentBoxShow)
+        setShowModel(true);
+        // localStorage.setItem('commentBoxShow', "false");
+        // console.log("保存された値",commentBoxShow)
         // runGPT(newCalendarData.calendar.id);
     }
     
       // コンポーネントがマウントされた時にlocalStorageから値を読み込む
-    React.useEffect(() => {
-        const storedIsActive = localStorage.getItem('commentBoxShow');
-        console.log("読み込みされた値", storedIsActive);
-        if (storedIsActive) {
-        setCommentBoxShow(storedIsActive === 'true');
-        }
-    }, []);
+    // useEffect(() => {
+    //     const storedIsActive = localStorage.getItem('commentBoxShow');
+    //     console.log("読み込みされた値", storedIsActive);
+    //     if (storedIsActive) {
+    //     setCommentBoxShow(storedIsActive === 'true');
+    //     }
+    // }, [setCommentBoxShow]);
 
     return (
         <div className={styles.container}>
