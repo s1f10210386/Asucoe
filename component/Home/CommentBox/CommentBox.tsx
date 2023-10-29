@@ -106,8 +106,7 @@ export function CommentBox(){
                     placeholder="明日の自分へ"
                     value={messageContent}
                     onChange={(e) => setMsseageContent(e.target.value)}
-                    InputProps={{ style: { borderRadius: 30 } }}
-                    // style={{ borderRadius: "50px" }}
+                    InputProps={{style: { borderRadius: 30 }}}
                 />
                 <Button 
                     variant="contained" 
