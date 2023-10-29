@@ -5,6 +5,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useCallback, useEffect, useMemo, useState } from "react";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import HomeIcon from '@mui/icons-material/Home';
+import { DayData, getDaysInMonth, isToday } from "@/utils/makeCalendar";
 
 
 export default function Calendar(){
@@ -59,9 +60,13 @@ export default function Calendar(){
     },[]);
 
     const emotionalValueToColor = (value: number) => {
-        if(value === 0) return '#e8e7ec'; 
-        // 他のemotionalValueの場合も追加できます
-        // return 'rgb(234, 234, 243)'; // 例としてのデフォルト色
+        if(value === 1) return '#e8e7ec'; 
+        if(value === 2) return "#6b3c79";
+        if(value === 3) return "yellow";
+        if(value === 4) return "black";
+        if(value === 5) return "red"
+        return "blue"
+
       };
       
     useEffect(()=>{
@@ -83,10 +88,7 @@ export default function Calendar(){
     const [currentDate, setCurrentDate] = useState(new Date());
     const days = ["日", "月", "火", "水", "木", "金", "土"];
 
-    //月の日数を取得する関数
-    const getDaysInMonth=(month: number, year: number)=>{
-        return new Date(year, month, 0).getDate();
-    }
+    
 
     const prevMonth = () => {
         setCurrentDate(prev => new Date(prev.getFullYear(), prev.getMonth() - 1));
@@ -96,21 +98,7 @@ export default function Calendar(){
         setCurrentDate(prev => new Date(prev.getFullYear(), prev.getMonth() + 1));
     }
 
-    type DayData = {
-        date: Date | null;
-        note?: string;
-        color?: string;
-    }
     
-    const isToday = (date: Date | null)=>{
-        if(!date) return false;
-        const today = new Date();
-        return (
-            date.getDate() === today.getDate() &&
-            date.getMonth() === today.getMonth() &&
-            date.getFullYear() === today.getFullYear()
-        );
-    }
 
     const generateCalendarDays = (date: Date): DayData[]=>{
         const month = date.getMonth();
@@ -156,7 +144,7 @@ export default function Calendar(){
 
     return (
         <div className={styles.container}>
-            <div style={{textAlign:"center"}}>
+            <div style={{display:"grid",justifyContent:"right", marginRight:"10%"}}>
             <Link href="/" passHref>
                 <IconButton aria-label="calendar" size="large" style={{ marginLeft: 'auto', padding: '8px', color: '#000000' }}>
                     <HomeIcon />
