@@ -5,6 +5,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useCallback, useEffect, useMemo, useState } from "react";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import HomeIcon from '@mui/icons-material/Home';
+import ReviewsIcon from '@mui/icons-material/Reviews';
 import { DayData, getDaysInMonth, isToday } from "@/utils/makeCalendar";
 
 
@@ -146,9 +147,14 @@ export default function Calendar(){
     };
 
 
+    const [showCounseling, setShowCounseling] = useState(false);
+    // const handleAI = (day:DayData)=>{
+    //     setSelectedCounseling(day.counseling || null);
+    // }
+
     return (
         <div className={styles.container}>
-            <div style={{display:"grid",justifyContent:"right", marginRight:"10%"}}>
+            <div className={styles.topbar}>
             <Link href="/" passHref>
                 <IconButton aria-label="calendar" size="large" style={{ marginLeft: 'auto', padding: '8px', color: '#000000' }}>
                     <HomeIcon />
@@ -191,16 +197,19 @@ export default function Calendar(){
                 {selectedMessage &&(
                     <>
                     <div className={styles.noteDisplay}>
+                    <ReviewsIcon onClick={() => setShowCounseling(!showCounseling)} />
                         {selectedMessage}
+                        {showCounseling &&(
+                            <div className={styles.counselingTooltip}>
+                                {selectedCounseling}
+                            </div>
+                        )}
+                        
                     </div>
-                    <div className={styles.counselingDisplay}>
-                        <h3>AI</h3>
-                        {selectedCounseling}
-                    </div>
+                    
                     </>
                 )}
             </div>    
         </div>
     )
 }
-
