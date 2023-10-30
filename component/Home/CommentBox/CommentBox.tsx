@@ -24,7 +24,7 @@ export function CommentBox(){
     }
 
     const addContent = async(postObject: PostObject)=>{
-        const response = await fetch('/api/postDB_message_calendar',{
+        const response = await fetch(`${baseURL}/api/postDB_message_calendar`,{
             method: 'POST',
             headers:{
                 'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ export function CommentBox(){
     }
 
     const scoringGPT =async(content : string) =>{
-        const response= await fetch('/api/scoringGPTAPI', {
+        const response= await fetch(`${baseURL}/api/scoringGPTAPI`, {
             method: 'POST',
             headers:{
                 'Content-Type' : 'application/json',
@@ -56,7 +56,7 @@ export function CommentBox(){
     }
 
     const counselingGPT = async(content: string)=>{
-        const response = await fetch("/api/counselingGPTAPI",{
+        const response = await fetch(`${baseURL}/api/counselingGPTAPI`,{
             method: 'POST',
             headers:{
                 'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ export function CommentBox(){
 
     //emotinalValueをDBに追加
     const addEmotinalValueDB =async( calendarId:number ,emotionalValue:number)=>{
-        const response = await fetch('/api/addEmotionalValueAPI',{
+        const response = await fetch(`${baseURL}/api/addEmotionalValueAPI`,{
             method: 'POST',
             headers:{
                 'Content-Type' : 'application/json',
@@ -81,7 +81,7 @@ export function CommentBox(){
     }
 
     const addCounselingDB =async (calendarId:number, counseling: string) => {
-        const response = await fetch('/api/addCounselingAPI',{
+        const response = await fetch(`${baseURL}/api/addCounselingAPI`,{
             method: "POST",
             headers:{
                 'Content-Type' : 'application/json',
