@@ -5,6 +5,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useCallback, useEffect, useMemo, useState } from "react";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import HomeIcon from '@mui/icons-material/Home';
+import ReviewsIcon from '@mui/icons-material/Reviews';
 import { DayData, getDaysInMonth, isToday } from "@/utils/makeCalendar";
 
 
@@ -19,6 +20,7 @@ export default function Calendar(){
         content: string;
         timestamp: string;
         calendarId: number;
+        counseling: string;
     }
 
     const [eventData, setEventData] = useState<any[]>([]);
@@ -45,7 +47,8 @@ export default function Calendar(){
         const combinedDate_messages = DB_messages.map((item:any)=>({
             content : item.content,
             timestamp:item.timestamp,
-            calendarId: item.calendarId
+            calendarId: item.calendarId,
+            counseling: item.counseling
         }))
         return { combinedData_Calendar, combinedDate_messages}
     }
@@ -76,7 +79,8 @@ export default function Calendar(){
             return{
                 date: new Date(calendarItem.date),
                 note: message ? message.content  : "",
-                color : emotionalValueToColor(calendarItem.emotionalValue)
+                color : emotionalValueToColor(calendarItem.emotionalValue),
+                counseling: message ? message.counseling : "",
             }
         })
         setEventData(eventData);
@@ -135,15 +139,22 @@ export default function Calendar(){
     const calendarDays = generateCalendarDays(currentDate)
 
     const [selectedMessage, setSelectedMessage] = useState<string | null>(null);
+    const [selectedCounseling, setSelectedCounseling] = useState<string | null>(null);
 
     const handleDayClick = (day: DayData) => {
         setSelectedMessage(day.note || null);
+        setSelectedCounseling(day.counseling || null);
     };
 
 
+    const [showCounseling, setShowCounseling] = useState(false);
+    // const handleAI = (day:DayData)=>{
+    //     setSelectedCounseling(day.counseling || null);
+    // }
+
     return (
         <div className={styles.container}>
-            <div style={{display:"grid",justifyContent:"right", marginRight:"10%"}}>
+            <div className={styles.topbar}>
             <Link href="/" passHref>
                 <IconButton aria-label="calendar" size="large" style={{ marginLeft: 'auto', padding: '8px', color: '#000000' }}>
                     <HomeIcon />
@@ -184,12 +195,21 @@ export default function Calendar(){
             </div>
             <div>
                 {selectedMessage &&(
+                    <>
                     <div className={styles.noteDisplay}>
+                    <ReviewsIcon onClick={() => setShowCounseling(!showCounseling)} />
                         {selectedMessage}
+                        {showCounseling &&(
+                            <div className={styles.counselingTooltip}>
+                                {selectedCounseling}
+                            </div>
+                        )}
+                        
                     </div>
+                    
+                    </>
                 )}
             </div>    
         </div>
     )
 }
-

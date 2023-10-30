@@ -8,6 +8,7 @@ export type DayData = {
     date: Date | null;
     note?: string;
     color?: string;
+    counseling?: string;
 }
 
 export const isToday = (date: Date | null)=>{
