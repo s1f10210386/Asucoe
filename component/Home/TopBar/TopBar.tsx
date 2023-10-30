@@ -23,13 +23,14 @@ export function TopBar(){
     const [isClicked, setIsClicked] = useState(false); // アイコンがクリックされた状態を管理
     const handleIconClick = async (path:string) => {
         await controls.start({
-            x: '-50vw',
+            x: '-30vw',
             y: '50vh',
             scale: 20,
             opacity:0,
-            transition: { duration: 0.7,ease:"easeInOut" },
+            transition: { duration: 0.5,ease:[0.42, 0, 0.58, 1] },
         });
-        // setTimeout(() => router.push('/calendar'), 500);
+        // setTimeout(() => router.push('/calendar'), 100);
+        //たまにスマホ画面遷移バグる
         router.push('/calendar');
     }
 
@@ -67,7 +68,7 @@ export function TopBar(){
                 
                 <motion.div
                     initial={{ opacity: 0 }}
-                    animate={{ opacity: isClicked ? 1.0 : 0 }} // isClickedの状態に応じて透明度を変更
+                    animate={{ opacity: isClicked ? 0.8 : 0 }} // isClickedの状態に応じて透明度を変更
                     className={styles.overlay} // スタイルを適用
                 ></motion.div>
 
