@@ -21,10 +21,10 @@ export const scoringGPT = async(content: string): Promise<number>=>{
 
     const validResponses = ["1" , "2" , "3" , "4" , "5"]
     if(chatContent === null  || !validResponses.includes(chatContent)){
-        console.log("saiki")
+        console.log("scoringGPT 再帰")
         return scoringGPT(content);
     }
-    console.log("cgatContent",chatContent)
+    // console.log("cgatContent",chatContent)
     const result = parseInt(chatContent, 10)
     return result
 }

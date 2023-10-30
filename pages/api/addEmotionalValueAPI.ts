@@ -14,14 +14,4 @@ export default async function addEmotionalValueAPI(req:NextApiRequest, res: Next
 
         res.json({calendar})
     }
-//     try {
-//         const calendar = await prisma.calendar.update({
-//             where:{id:id},
-//             data:{ emotionalValue: emotionalValue}
-//         });
-//         res.json({calendar});
-//     } catch(error) {
-//         console.error("Update error:", error);
-//         res.status(500).json({error: "Failed to update emotionalValue"});
-//     }
 }

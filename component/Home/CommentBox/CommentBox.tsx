@@ -54,6 +54,18 @@ export function CommentBox(){
         return data;
     }
 
+    const counselingGPT = async(content: string)=>{
+        const response = await fetch("/api/counselingGPTAPI",{
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(content),
+        })
+        const data = await response.json();
+        return data;
+    }
+
     //emotinalValueをDBに追加
     const addEmotinalValueDB =async( calendarId:number ,emotionalValue:number)=>{
         const response = await fetch('/api/addEmotionalValueAPI',{
@@ -62,6 +74,18 @@ export function CommentBox(){
                 'Content-Type' : 'application/json',
             },
             body: JSON.stringify({ id: calendarId, emotionalValue: emotionalValue}),
+        })
+        const data = await response.json();
+        return data;
+    }
+
+    const addCounselingDB =async (calendarId:number, counseling: string) => {
+        const response = await fetch('/api/addCounselingAPI',{
+            method: "POST",
+            headers:{
+                'Content-Type' : 'application/json',
+            },
+            body: JSON.stringify({ id: calendarId, counseling: counseling}),
         })
         const data = await response.json();
         return data;
@@ -76,6 +100,14 @@ export function CommentBox(){
         console.log("calendarId", calendarId)
         //ここでGPTscoringの内容をDBに接続
         await addEmotinalValueDB(calendarId,GPTScoringValue);
+    }
+
+    const runCounseling = async(calendarId: number)=>{
+        if(messageContent==="") return;
+        const GPTCounseling:string = await counselingGPT(messageContent);
+
+        await addCounselingDB(calendarId, GPTCounseling);
+        
     }
 
 
@@ -100,6 +132,7 @@ export function CommentBox(){
         // localStorage.setItem('commentBoxShow', "false");
         // console.log("保存された値",commentBoxShow)
         runGPT(newCalendarData.calendar.id);
+        runCounseling(newCalendarData.calendar.id);
     }
     
       // コンポーネントがマウントされた時にlocalStorageから値を読み込む
