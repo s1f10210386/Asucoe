@@ -11,11 +11,12 @@ datasource db {
 }
 
 model Message {
-  id        Int      @id @default(autoincrement())
-  content   String
-  timestamp String
-  calendar  Calendar @relation(fields: [calendarId], references: [id])
-  calendarId Int     @unique
+  id          Int       @id @default(autoincrement())
+  content     String
+  timestamp   String
+  counseling  String?    @default(" ")
+  calendar    Calendar  @relation(fields: [calendarId], references: [id])
+  calendarId  Int       @unique
 }
 
 model Calendar {
