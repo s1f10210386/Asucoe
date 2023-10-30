@@ -7,6 +7,7 @@ import { getCurrentTimestamp } from "@/utils/CurrentTime";
 import { useEffect, useState } from "react";
 import SendIcon from '@mui/icons-material/Send';
 import React from "react";
+import { motion } from "framer-motion";
 
 export function CommentBox(){
 
@@ -78,7 +79,10 @@ export function CommentBox(){
         await addEmotinalValueDB(calendarId,GPTScoringValue);
     }
 
-
+    const sendIconVariants = {
+        initial: { x: 0, y: 0 },
+        animate: { x: 100, y: -100, opacity: 0, transition: { duration: 0.5 } }
+    };
 
     const run = async()=>{
         if(messageContent === "") return;
@@ -126,11 +130,13 @@ export function CommentBox(){
                     InputProps={{style: { borderRadius: 30 }}}
                 />
                 <Button 
-                    variant="contained" 
-                    style={{ backgroundColor: '#91CAD3', color: 'white',borderRadius: '18px'  }}
-                    onClick={run}
-                    className={styles.sendButton}
-                    startIcon={<SendIcon />}
+                        component={motion.div}
+                        whileHover={{ rotate: -15, scale: 1.0 }}
+                        style={{ backgroundColor: '#91CAD3', color: 'white', borderRadius: '18px' }}
+                        onClick={run}
+                        className={styles.sendButton}
+                        startIcon={<SendIcon />}
+                    
                 >
                 </Button>
             </div>
