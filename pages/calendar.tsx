@@ -19,6 +19,7 @@ export default function Calendar(){
         content: string;
         timestamp: string;
         calendarId: number;
+        counseling: string;
     }
 
     const [eventData, setEventData] = useState<any[]>([]);
@@ -45,7 +46,8 @@ export default function Calendar(){
         const combinedDate_messages = DB_messages.map((item:any)=>({
             content : item.content,
             timestamp:item.timestamp,
-            calendarId: item.calendarId
+            calendarId: item.calendarId,
+            counseling: item.counseling
         }))
         return { combinedData_Calendar, combinedDate_messages}
     }
@@ -76,7 +78,8 @@ export default function Calendar(){
             return{
                 date: new Date(calendarItem.date),
                 note: message ? message.content  : "",
-                color : emotionalValueToColor(calendarItem.emotionalValue)
+                color : emotionalValueToColor(calendarItem.emotionalValue),
+                counseling: message ? message.counseling : "",
             }
         })
         setEventData(eventData);
@@ -135,9 +138,11 @@ export default function Calendar(){
     const calendarDays = generateCalendarDays(currentDate)
 
     const [selectedMessage, setSelectedMessage] = useState<string | null>(null);
+    const [selectedCounseling, setSelectedCounseling] = useState<string | null>(null);
 
     const handleDayClick = (day: DayData) => {
         setSelectedMessage(day.note || null);
+        setSelectedCounseling(day.counseling || null);
     };
 
 
@@ -184,9 +189,15 @@ export default function Calendar(){
             </div>
             <div>
                 {selectedMessage &&(
+                    <>
                     <div className={styles.noteDisplay}>
                         {selectedMessage}
                     </div>
+                    <div className={styles.counselingDisplay}>
+                        <h3>AI</h3>
+                        {selectedCounseling}
+                    </div>
+                    </>
                 )}
             </div>    
         </div>
