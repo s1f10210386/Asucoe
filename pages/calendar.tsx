@@ -7,6 +7,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import HomeIcon from '@mui/icons-material/Home';
 import ReviewsIcon from '@mui/icons-material/Reviews';
 import { DayData, getDaysInMonth, isToday } from "@/utils/makeCalendar";
+import { baseURL } from "@/utils/url";
 
 
 export default function Calendar(){
@@ -28,7 +29,7 @@ export default function Calendar(){
     const [DbMessageData, setDbMessageData] = useState<MessageItem[]>([]);
 
     const getCalendar = async()=>{
-        const responce = await fetch('/api/getDB',{
+        const responce = await fetch(`${baseURL}/api/getDB`,{
             method:'GET',
             headers:{
                 'Content-Type' : 'application/json',

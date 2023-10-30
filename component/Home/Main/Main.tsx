@@ -10,7 +10,7 @@ export function Main(){
     const containerRef = useRef<HTMLDivElement>(null); 
 
     const getMessages= async()=>{
-        const response = await fetch(`/api/getDB`,{
+        const response = await fetch(`${baseURL}/api/getDB`,{
             method: 'GET',
             headers:{
                 'Content-Type': 'application/json',
