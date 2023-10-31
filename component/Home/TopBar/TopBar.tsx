@@ -19,9 +19,12 @@ export function TopBar(){
     const toggleOpen = () => setIsOpen(!isOpen);    
 
     const router = useRouter();
-    const controls = useAnimation();
+    const CalendarControls = useAnimation(); //calendar用アニメ定義
+    const InfoControls = useAnimation(); //info用アニメ定義
     const [isClicked, setIsClicked] = useState(false); // アイコンがクリックされた状態を管理
-    const handleIconClick = async (path:string) => {
+
+    //クリックしたらアニメショーン起動しpath飛ぶ
+    const handleIconClick = async (path:string,controls) => { 
         await controls.start({
             x: '-30vw',
             y: '50vh',
@@ -31,7 +34,7 @@ export function TopBar(){
         });
         // setTimeout(() => router.push('/calendar'), 100);
         //たまにスマホ画面遷移バグる
-        router.push('/calendar');
+        router.push(path);
     }
 
     return (
@@ -80,20 +83,30 @@ export function TopBar(){
                     initial={{scale:1}}
                     whileHover={{ scale: 1.1 }} // ホバー時に少し拡大する
                     onClick={() => {
-                        handleIconClick('/calendar');
+                        handleIconClick('/calendar',CalendarControls);
                         setIsClicked(true);
                     }} // クリック時にアニメーションを実行する
-                    animate={controls}
+                    animate={CalendarControls}
                 >
                     <CalendarMonthIcon fontSize="inherit" />
                 </MotionIconButton>
               
                 
-                <Link href="/info" passHref>
-                    <IconButton aria-label="info" size="large" style={{ marginLeft:'auto' ,padding:'8px',color: '#000000' }}>
-                        <InfoIcon fontSize="inherit" />
-                    </IconButton>
-                </Link>
+                <MotionIconButton
+                    aria-label="info"
+                    size="large"
+                    style={{ marginLeft: 'auto', padding: '8px', color: '#000000',
+                 }}
+                    initial={{scale:1}}
+                    whileHover={{ scale: 1.1 }} // ホバー時に少し拡大する
+                    onClick={() => {
+                        handleIconClick('/info',InfoControls);
+                        setIsClicked(true);
+                    }} // クリック時にアニメーションを実行する
+                    animate={InfoControls}
+                >
+                    <InfoIcon fontSize="inherit" />
+                </MotionIconButton>
                 
 
             </Stack>
