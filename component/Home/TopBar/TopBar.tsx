@@ -69,11 +69,11 @@ export function TopBar(){
                 </IconButton>
                         
                 
-                <motion.div
+                {/* <motion.div
                     initial={{ opacity: 0 }}
-                    animate={{ opacity: isClicked ? 0.8 : 0 }} // isClickedの状態に応じて透明度を変更
-                    className={styles.overlay} // スタイルを適用
-                ></motion.div>
+                    animate={{ opacity: isClicked ? 0.8 : 0 }} 
+                    className={styles.overlay}
+                ></motion.div> */}
 
                 <MotionIconButton
                     aria-label="calendar"
@@ -98,11 +98,11 @@ export function TopBar(){
                     style={{ marginLeft: 'auto', padding: '8px', color: '#000000',
                  }}
                     initial={{scale:1}}
-                    whileHover={{ scale: 1.1 }} // ホバー時に少し拡大する
+                    whileHover={{ scale: 1.1 }}
                     onClick={() => {
                         handleIconClick('/info',InfoControls);
                         setIsClicked(true);
-                    }} // クリック時にアニメーションを実行する
+                    }}
                     animate={InfoControls}
                 >
                     <InfoIcon fontSize="inherit" />
