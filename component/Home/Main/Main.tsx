@@ -27,6 +27,12 @@ export function Main(){
             timestamp:item.timestamp,
             calendarId: item.calendarId
         }))
+
+        const combinedDataCalendar = DB_calendar.map((item : any)=>({
+            date: item.date,
+            emotinalValue: item.emotinalValue,
+            id: item.id
+        }))
         return combinedData;
     }
 

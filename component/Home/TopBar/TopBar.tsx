@@ -7,21 +7,27 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import InfoIcon from '@mui/icons-material/Info';
 import { AnimationControls, motion, useAnimation } from "framer-motion";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { baseURL } from "@/utils/url";
 
 const MotionIconButton = motion(IconButton);
 
 export function TopBar(){
     const [messageList] = useAtom(messageListAtom);
-
     const [isOpen, setIsOpen] = useState(false);
-    const toggleOpen = () => setIsOpen(!isOpen);    
+    const toggleOpen = () => {
+        setIsOpen(!isOpen)
+    };    
 
     const router = useRouter();
     const CalendarControls = useAnimation(); //calendar用アニメ定義
     const InfoControls = useAnimation(); //info用アニメ定義
     const [isClicked, setIsClicked] = useState(false); // アイコンがクリックされた状態を管理
+
+    const latestContents = messageList[messageList.length -1]?.content;
+
+    
 
     //クリックしたらアニメショーン起動しpath飛ぶ
     const handleIconClick = async (path:string,controls: AnimationControls) => { 
@@ -36,6 +42,28 @@ export function TopBar(){
         //たまにスマホ画面遷移バグる
         router.push(path);
     }
+
+    const [summary, setSummary] = useState<string>()
+
+   
+
+    // useEffect(()=>{
+    //     const summaryContent = async()=>{
+    //         const latestContent = messageList[messageList.length -1]?.content;
+    //         const response = await fetch(`${baseURL}/api/summaryAPI`,{
+    //             method: "POST",
+    //             headers:{
+    //                 'Content-Type' : 'application/json',
+    //             },
+    //             body: JSON.stringify(latestContent),
+    //         })
+    //         const data:string = await response.json()
+    //         setSummary(data);
+    //     }
+    //     summaryContent()
+    //     console.log(summary)
+    // },[messageList, summary])
+    
 
     return (
         <div className={styles.container}>
@@ -60,6 +88,15 @@ export function TopBar(){
                     )}
                 </div>
             ))}
+             {/* {isOpen ? (
+                <div>
+                    {summary}
+                </div>
+            ):(
+                <div>
+                    {latestContents}
+                </div>
+            )}  */}
             </motion.div>
 
 

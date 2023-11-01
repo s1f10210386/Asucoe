@@ -1,6 +1,6 @@
 import Link from "next/link"
 import styles from "./calendar.module.css"
-import { IconButton } from "@mui/material"
+import { Collapse, Fade, Grow, IconButton, Slide, Zoom } from "@mui/material"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useCallback, useEffect, useMemo, useState } from "react";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -17,8 +17,16 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 export default function Calendar(){
     const [isGraphCalendar, setIsGraphCalendar] = useState<boolean>(true);
     const [graphData, setGraphData] = useAtom(graphDataAtom);
+
+    // const [flipAnimation, setFlipAnimation] = useState(false);
+
     const isChangeCalendarGraph=()=>{
         setIsGraphCalendar(!isGraphCalendar)
+        // setFlipAnimation(true);
+        // setTimeout(() => {
+        //     setIsGraphCalendar((prev) => !prev);
+        //     setFlipAnimation(false);
+        //   }, 500);
     }
 
     type CalendarItem = {
@@ -192,11 +200,12 @@ export default function Calendar(){
 
     const [showCounseling, setShowCounseling] = useState(false);
 
+   
+    
     return (
         <div className={styles.container}>
             <div className={styles.topbar}>
             <IconButton size="large" style={{ marginLeft: 'auto', padding: '8px', color: '#000000' }} onClick={isChangeCalendarGraph}>
-                {/* <AutoGraphIcon/> */}
                 {isGraphCalendar ? <AutoGraphIcon/> : <CalendarMonthIcon/>}
             </IconButton>
             <Link href="/" passHref>
@@ -207,8 +216,8 @@ export default function Calendar(){
             </div>
 
             <div className={styles.calendarGraph}>
-                {isGraphCalendar &&(
-                <div className={styles.calendar}>
+                <Slide direction="left" in={isGraphCalendar} mountOnEnter unmountOnExit timeout={500}>
+                <div className={styles.calendarGraph}>
                     <div className={styles.calendarHeader}>
                     <IconButton onClick={prevMonth}>
                         <ArrowBackIcon/>
@@ -237,10 +246,12 @@ export default function Calendar(){
                         ))}
                     </div>
                 </div>
-                )}
-                {!isGraphCalendar &&(
+                </Slide>
+                <Slide direction="right" in={!isGraphCalendar} mountOnEnter unmountOnExit timeout={500}>
                     <div><Graph/></div>
-                )}
+                </Slide>
+                
+
             </div>
             <div>
                 {selectedMessage &&(
