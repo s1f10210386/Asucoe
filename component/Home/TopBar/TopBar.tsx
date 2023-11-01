@@ -5,7 +5,7 @@ import { IconButton, Stack, duration } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import InfoIcon from '@mui/icons-material/Info';
-import { motion, useAnimation } from "framer-motion";
+import { AnimationControls, motion, useAnimation } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/router";
@@ -24,7 +24,7 @@ export function TopBar(){
     const [isClicked, setIsClicked] = useState(false); // アイコンがクリックされた状態を管理
 
     //クリックしたらアニメショーン起動しpath飛ぶ
-    const handleIconClick = async (path:string,controls) => { 
+    const handleIconClick = async (path:string,controls: AnimationControls) => { 
         await controls.start({
             x: '-30vw',
             y: '50vh',
