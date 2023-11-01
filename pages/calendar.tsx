@@ -12,7 +12,7 @@ import { Graph } from "@/component/Calendar/Graph/Graph";
 import { useAtom } from "jotai";
 import { graphDataAtom } from "@/utils/jotai";
 import AutoGraphIcon from '@mui/icons-material/AutoGraph';
-
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 export default function Calendar(){
     const [isGraphCalendar, setIsGraphCalendar] = useState<boolean>(true);
@@ -196,7 +196,8 @@ export default function Calendar(){
         <div className={styles.container}>
             <div className={styles.topbar}>
             <IconButton size="large" style={{ marginLeft: 'auto', padding: '8px', color: '#000000' }} onClick={isChangeCalendarGraph}>
-                <AutoGraphIcon/>
+                {/* <AutoGraphIcon/> */}
+                {isGraphCalendar ? <AutoGraphIcon/> : <CalendarMonthIcon/>}
             </IconButton>
             <Link href="/" passHref>
                 <IconButton aria-label="calendar" size="large" style={{ marginLeft: 'auto', padding: '8px', color: '#000000' }}>

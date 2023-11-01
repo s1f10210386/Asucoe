@@ -39,7 +39,6 @@ export default function Home(){
       const intervalId = setInterval(() => {
         const date = getDate();
         setCurrentDateTime(date);
-        // console.log("currentDateTime", date);
         if (currentDateTime >= 1900){
           setCommentBoxShow(true)
         }
