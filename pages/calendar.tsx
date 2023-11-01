@@ -207,7 +207,8 @@ export default function Calendar(){
             </div>
 
             <div className={styles.calendarGraph}>
-                {isGraphCalendar &&(
+                
+                {isGraphCalendar && (
                 <div className={styles.calendar}>
                     <div className={styles.calendarHeader}>
                     <IconButton onClick={prevMonth}>
