@@ -14,7 +14,11 @@
     
     
 }
-
+.calendarGraph{
+    width: 100vw;
+    height: 55vh;
+    overflow: auto  ;
+}
 .calendar .graph{
     display: flex;
     flex-direction: column;

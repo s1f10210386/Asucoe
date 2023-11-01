@@ -205,7 +205,7 @@ export default function Calendar(){
             </Link>
             </div>
 
-            <div>
+            <div className={styles.calendarGraph}>
                 {isGraphCalendar &&(
                 <div className={styles.calendar}>
                     <div className={styles.calendarHeader}>
