@@ -44,7 +44,7 @@ export function Graph() {
   
   
   // dataオブジェクトをここで定義
-    const labels=['1','5','10','15','20','25','31']
+  const labels = Array.from({ length: result.length }, (_, i) => (i + 1).toString());
   const data: ChartData<'line'> = {
       labels,
       datasets: [
