@@ -69,11 +69,11 @@ export function TopBar(){
                 </IconButton>
                         
                 
-                {/* <motion.div
+                <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: isClicked ? 0.8 : 0 }} 
                     className={styles.overlay}
-                ></motion.div> */}
+                ></motion.div>
 
                 <MotionIconButton
                     aria-label="calendar"
