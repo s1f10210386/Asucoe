@@ -10,7 +10,9 @@ export const counselingGPT =async (content: string) => {
         messages:[
             {
                 role:"user",
-                content:`あなたはカウンセラーになりかわってください。次の文に対してのアドバイスを一つお願いします。"${content}"`
+                content:`
+                あなたはカウンセラーになりかわってください。次の文に対してのアドバイスをお願いします。"${content}"
+                `
             },
         ],
         model: "gpt-3.5-turbo"

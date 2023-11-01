@@ -14,7 +14,7 @@ model Message {
   id          Int       @id @default(autoincrement())
   content     String
   timestamp   String
-  counseling  String?    @default(" ")
+  counseling  String?    @default("")
   calendar    Calendar  @relation(fields: [calendarId], references: [id])
   calendarId  Int       @unique
 }

@@ -8,9 +8,19 @@ import HomeIcon from '@mui/icons-material/Home';
 import ReviewsIcon from '@mui/icons-material/Reviews';
 import { DayData, getDaysInMonth, isToday } from "@/utils/makeCalendar";
 import { baseURL } from "@/utils/url";
+import { Graph } from "@/component/Calendar/Graph/Graph";
+import { useAtom } from "jotai";
+import { graphDataAtom } from "@/utils/jotai";
+import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 
 
 export default function Calendar(){
+    const [isGraphCalendar, setIsGraphCalendar] = useState<boolean>(true);
+    const [graphData, setGraphData] = useAtom(graphDataAtom);
+    const isChangeCalendarGraph=()=>{
+        setIsGraphCalendar(!isGraphCalendar)
+    }
+
     type CalendarItem = {
         date: string;
         emotionalValue: number;
@@ -59,9 +69,41 @@ export default function Calendar(){
             const DB = await getCalendar();
             setDbCalendarData(DB.combinedData_Calendar)
             setDbMessageData(DB.combinedDate_messages);
+            
+            //DBからdateとemotionalValueを受け取り渡す。
+            const dateEmotinalData = DB.combinedData_Calendar.map((item:any)=>({
+                date: item.date,
+                emotionalValue: item.emotionalValue,
+            }))
+            setGraphData(dateEmotinalData);
+
+            // 今日の日付に対応するcalendarItemを探します
+            const today = new Date();
+            const todayCalendarItem = DB.combinedData_Calendar.find(
+                (item: CalendarItem) => new Date(item.date).getDate() === today.getDate() &&
+                    new Date(item.date).getMonth() === today.getMonth() &&
+                    new Date(item.date).getFullYear() === today.getFullYear()
+            );
+
+            // そのcalendarItemに対応するメッセージを探し、selectedMessageにセットします
+            if (todayCalendarItem) {
+                const messageForToday = DB.combinedDate_messages.find(
+                    (msg: MessageItem) => msg.calendarId === todayCalendarItem.id
+                );
+                if (messageForToday) {
+                    setSelectedMessage(messageForToday.content);
+                }
+                const counselorForToday = DB.combinedDate_messages.find(
+                    (counselor: MessageItem) => counselor.calendarId === todayCalendarItem.id
+                )
+                if(counselorForToday){
+                    setSelectedCounseling(counselorForToday.counseling)
+                }
+            }
+
         }
         fetchDB()
-    },[]);
+    },[setGraphData]);
 
     const emotionalValueToColor = (value: number) => {
         if(value === 1) return '#EAF4FF'; 
@@ -149,50 +191,55 @@ export default function Calendar(){
 
 
     const [showCounseling, setShowCounseling] = useState(false);
-    // const handleAI = (day:DayData)=>{
-    //     setSelectedCounseling(day.counseling || null);
-    // }
 
     return (
         <div className={styles.container}>
             <div className={styles.topbar}>
+            <IconButton size="large" style={{ marginLeft: 'auto', padding: '8px', color: '#000000' }} onClick={isChangeCalendarGraph}>
+                <AutoGraphIcon/>
+            </IconButton>
             <Link href="/" passHref>
                 <IconButton aria-label="calendar" size="large" style={{ marginLeft: 'auto', padding: '8px', color: '#000000' }}>
                     <HomeIcon />
                 </IconButton>
             </Link>
             </div>
-            
-            <div className={styles.calendar}>
-                <div className={styles.calendarHeader}>
-                <IconButton onClick={prevMonth}>
-                    <ArrowBackIcon/>
-                </IconButton>
-                <h2 className={styles.calendarMonth}>
-                    {currentDate.getFullYear()}年 {currentDate.getMonth() + 1}月
-                </h2>
-                <IconButton onClick={nextMonth}>
-                    <ArrowForwardIcon/>
-                </IconButton>
-                </div>
+
+            <div>
+                {isGraphCalendar &&(
+                <div className={styles.calendar}>
+                    <div className={styles.calendarHeader}>
+                    <IconButton onClick={prevMonth}>
+                        <ArrowBackIcon/>
+                    </IconButton>
+                    <h2 className={styles.calendarMonth}>
+                        {currentDate.getFullYear()}年 {currentDate.getMonth() + 1}月
+                    </h2>
+                    <IconButton onClick={nextMonth}>
+                        <ArrowForwardIcon/>
+                    </IconButton>
+                    </div>
                 
-                <div className={styles.daysHeader}>
-                    {days.map(day => <div key={day} className={styles.dayHeader}>
-                                        {day}
-                                    </div>)}
+                    <div className={styles.daysHeader}>
+                        {days.map(day => <div key={day} className={styles.dayHeader}>{day}</div>)}
+                    </div>
+                    <div className={styles.days}>
+                        {calendarDays.map((day,index)=>(
+                            <div 
+                                key={index} 
+                                className={styles.day}  
+                                onClick={() => handleDayClick(day)}
+                                style={{ backgroundColor : day.color || 'rgb(255, 255, 255)'}}
+                            >
+                                {day.date ? day.date.getDate() : ""}
+                            </div>
+                        ))}
+                    </div>
                 </div>
-                <div className={styles.days}>
-                    {calendarDays.map((day,index)=>(
-                        <div 
-                            key={index} 
-                            className={styles.day}  
-                            onClick={() => handleDayClick(day)}
-                            style={{ backgroundColor : day.color || 'rgb(255, 255, 255)'}}
-                        >
-                            {day.date ? day.date.getDate() : ""}
-                        </div>
-                    ))}
-                </div>
+                )}
+                {!isGraphCalendar &&(
+                    <div><Graph/></div>
+                )}
             </div>
             <div>
                 {selectedMessage &&(

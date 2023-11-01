@@ -11,3 +11,5 @@ export const messageListAtom = atom<Message[]>([]);
 export const showModelAtom = atom(false);
 
 export const commentBoxShowAtom = atom<boolean>(true);
+
+export const graphDataAtom = atom<{date:string, emotionalValue: number }[]>([])
