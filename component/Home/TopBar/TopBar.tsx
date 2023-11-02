@@ -20,7 +20,7 @@ export function TopBar(){
         setIsOpen(!isOpen)
     };    
 
-    const router = useRouter();
+    // const router = useRouter();
     // const [isClicked, setIsClicked] = useState(false); // アイコンがクリックされた状態を管理
 
 
@@ -79,18 +79,17 @@ export function TopBar(){
             </motion.div>
 
 
-            <Stack direction="row" spacing={1} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <IconButton aria-label="search" size="large" style={{ marginLeft:'auto',padding:'8px',color: '#000000' }} >
+            <Stack direction="row" spacing={1} sx={{ display: 'flex', justifyContent: 'flex-end', paddingRight: "5px"}}>
+                {/* <IconButton aria-label="search" size="large" sx={{color:`#000000`, padding: `8px`}} >
                     <SearchIcon fontSize="inherit" />
-                </IconButton>
+                </IconButton> */}
               
                 <Link href="/calendar" passHref>
                     {/* <Grow in={isClicked} timeout={1000}> */}
                         <IconButton
                             aria-label="calendar"
                             size="large"
-                            style={{ marginLeft: 'auto', padding: '8px', color: '#000000' }}
-                            // onClick={handleClick}
+                            sx={{color:`#000000`, padding: `8px`}}
                         >
                             <CalendarMonthIcon fontSize="inherit"/>
                         </IconButton>
@@ -102,7 +101,7 @@ export function TopBar(){
                     <IconButton
                         aria-label="info"
                         size="large"
-                        style={{ marginLeft: 'auto', padding: '8px', color: '#000000' }}
+                        sx={{color:`#000000`, padding: `8px`}}
                     >
                         <InfoIcon fontSize="inherit" />
                     </IconButton>
