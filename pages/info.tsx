@@ -1,12 +1,18 @@
 import Link from 'next/link'
 import styles from './info.module.css'
-import { Box, IconButton, Slider, Typography } from '@mui/material'
+import { Box, IconButton, Slider, Typography, Link as MuiLink  } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useState } from 'react';
 import HomeIcon from '@mui/icons-material/Home';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { useAtom } from 'jotai';
 import { TimeDataAtom } from '@/utils/jotai';
+
+// import { Box, Typography, IconButton, Link as MuiLink } from '@mui/material';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faGithub, faXTwitter  } from '@fortawesome/free-brands-svg-icons'
+
 
 
 export default function Info(){
@@ -62,6 +68,54 @@ export default function Info(){
             
             </Box>
             </div>
+
+        <div className={styles.footer}>
+        <Box 
+            sx={{ 
+                width: '100%',
+                // borderTop: '1px solid gray',
+                // padding: 2,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'column',
+                // backgroundColor: 'background.default' 
+            }}
+        >
+            <Typography variant="body1" gutterBottom>Asucoe</Typography>
+    
+            <Box sx={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+                <Box sx={{ flexDirection: 'column', alignItems: 'center' }}>
+                    <Typography variant="body2">Hiroki</Typography>
+                    <MuiLink href="https://github.com/s1f10210254" target="_blank" rel="noopener noreferrer">
+                        <IconButton >
+                            <FontAwesomeIcon icon={faGithub}/>
+                        </IconButton>
+                    </MuiLink>
+                    <MuiLink href="https://twitter.com/ts7307301723521" target="_blank" rel="noopener noreferrer">
+                        <IconButton >
+                            <FontAwesomeIcon icon={faXTwitter}/>
+                        </IconButton>
+                    </MuiLink>
+                </Box>
+            
+                <Box sx={{ flexDirection: 'column', alignItems: 'center' }}>
+                    <Typography variant="body2">Hotaka</Typography>
+                    <MuiLink href="https://github.com/s1f10210386" target="_blank" rel="noopener noreferrer">
+                        <IconButton >
+                            <FontAwesomeIcon icon={faGithub}/>
+                        </IconButton>
+                    </MuiLink>
+                    <MuiLink href="https://twitter.com/ladohada386" target="_blank" rel="noopener noreferrer">
+                        <IconButton >
+                            <FontAwesomeIcon icon={faXTwitter}/>
+                        </IconButton>
+                    </MuiLink>
+                </Box>
+            </Box>
+        </Box>
+        </div>
+        
             
         </div>
         
