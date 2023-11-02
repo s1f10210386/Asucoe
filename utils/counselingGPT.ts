@@ -4,14 +4,37 @@ const openai =  new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
     baseURL: "https://api.openai.iniad.org/api/v1"
 })
+type User ={
+    name:string,
+    gender: string,
+    year: string,
+    profession: string
+}
 
-export const counselingGPT =async (content: string) => {
+export const counselingGPT =async (user: User ,content: string) => {
+    
+    console.log("user",user)
+    console.log("content", content)
+    let userContent = "";
+    if(user.name ===""){
+        userContent = `
+        カウンセラー相手の基本情報。（これはあまり気にしなくていい）
+        名前:${user.name},
+        性別:${user.gender},
+        年齢:${user.year},
+        職業:${user.profession},
+        `
+    }else{
+        userContent = ""
+    }
     const chatCompletion = await openai.chat.completions.create({
         messages:[
             {
                 role:"user",
                 content:`
-                あなたはカウンセラーになりかわってください。次の文に対してのアドバイスをお願いします。"${content}"
+            
+                ${userContent}
+                あなたはカウンセラーに成り代わって次の文に対しての３行程度のアドバイスをお願いします。"${content}"
                 `
             },
         ],

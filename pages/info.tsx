@@ -119,9 +119,9 @@ export default function Info(){
                     <FormControl fullWidth margin="normal">
                         <InputLabel>性別</InputLabel>
                         <Select value={user.gender} onChange={handleUserChange('gender')}>
-                            <MenuItem value="male">男性</MenuItem>
-                            <MenuItem value="female">女性</MenuItem>
-                            <MenuItem value="other">その他</MenuItem>
+                            <MenuItem value="男性">男性</MenuItem>
+                            <MenuItem value="女性">女性</MenuItem>
+                            <MenuItem value="その他">その他</MenuItem>
                         </Select>
                     </FormControl>
 
