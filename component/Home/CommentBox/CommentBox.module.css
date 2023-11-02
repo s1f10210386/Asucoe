@@ -14,8 +14,11 @@
     align-items: center;
     padding: 5px 10px;
     border-radius: 20px;
-    width: 90%;
+    /* width: 90%; */
+    width: 150vw;
     background-color: #efefef;
+
+    padding-left: 20vw;
  
 }
 
@@ -40,8 +43,9 @@
 
 .sendButton {
     position:absolute;
-    bottom: 25px;
-    right: 35px;
+    /* position: relative; */
+    bottom: -2px;
+    right: 70px;
     height: fit-content;
     width: fit-content;
     margin: 0;
