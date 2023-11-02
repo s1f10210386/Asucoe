@@ -98,6 +98,7 @@ export function TopBar(){
                 
                 
                 {/* <Grow in={isClicked}> */}
+                <Link href="/info" passHref>
                     <IconButton
                         aria-label="info"
                         size="large"
@@ -105,6 +106,7 @@ export function TopBar(){
                     >
                         <InfoIcon fontSize="inherit" />
                     </IconButton>
+                </Link>
                 {/* </Grow> */}
                 
 

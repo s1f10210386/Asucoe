@@ -16,7 +16,7 @@ export default function Develop(){
 
     return (
         <div>
-            {isLoading ? (
+            {/* {isLoading ? (
                 <div>
                     <Loading/>
                 </div>
@@ -24,7 +24,8 @@ export default function Develop(){
                 <div>
                     <ShowModel/>
                 </div>
-            )}
+            )} */}
+            <p>aa</p>
         </div>
     )
 }
