@@ -32,15 +32,24 @@ export function Graph() {
   //   graphcheck()
   // console.log("result", result)
     
-    useEffect(() => {
+  useEffect(() => {
     const tempResult: number[] = [];
-    
-    graphData.map((item) => { 
-        tempResult.push(item.emotionalValue);
+
+    //10月のデータだけ抽出
+    graphData.map((item) => {
+        const date = new Date(item.date); // item.dataをDateオブジェクトに変換
+        const month = date.getMonth(); // 月を取得
+
+        if (month === 9) { // 10月のデータだけをチェック(9->10月)
+            tempResult.push(item.emotionalValue);
+        }
+        // console.log("tempresulta",tempResult)
     });
+    console.log("tempresulta",tempResult)
 
     setResult(tempResult);
-    }, [graphData]);
+}, [graphData]);
+
   
   
   // dataオブジェクトをここで定義
@@ -48,9 +57,11 @@ export function Graph() {
   const data: ChartData<'line'> = {
       labels,
       datasets: [
-                {
-                    data: result
-                },
+        {
+          data: result,
+          borderColor: '#91CAD3',
+                  
+        },
             ],
       };
     
@@ -67,7 +78,7 @@ const options: ChartOptions<'line'> = {
       min: 1,       // y軸の最小値を1に設定
       max: 5,       // y軸の最大値を5に設定
       ticks: {
-        stepSize: 1  // 1ステップごとにラベルを表示
+        stepSize: 1  // 1刻みでラベルを表示
       }
     }
   }
@@ -75,8 +86,9 @@ const options: ChartOptions<'line'> = {
 
 function LineChart({ data }: { data: ChartData<'line'> }): JSX.Element {
   return (
-    <div className="graphContainer">
-      <Line options={options} data={data} />
-    </div>
+    <div style={{ marginTop: '20px' }}>
+      <Line options={options} data={data}  width={500} height={420}/>
+      </div>
+    
   )
 }
