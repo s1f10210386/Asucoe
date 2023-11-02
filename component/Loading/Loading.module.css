@@ -1,13 +1,25 @@
 .container{
     width: 100vw;
     height: 100vh;
-    background-color: #1D394A;
+    background-color: white;
+    
+}
+.mozi{
+    font-family: "finalsix", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+
+    display: flex;
+    justify-content: center;
+    padding-top: 25vh;
+    font-size: 30px;
 }
 
 .icon{
     display: flex;
     justify-content: center;
-    padding-top: 20vh;
+    padding-top: 35vh;
+   
 }
 
 .load{
