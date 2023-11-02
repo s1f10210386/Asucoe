@@ -79,36 +79,32 @@ export function TopBar(){
             </motion.div>
 
 
-            <Stack direction="row" spacing={1} sx={{ display: 'flex', justifyContent: 'flex-end', paddingRight: "5px"}}>
+            <Stack direction="row" sx ={{justifyContent: 'flex-end'}}>
                 {/* <IconButton aria-label="search" size="large" sx={{color:`#000000`, padding: `8px`}} >
                     <SearchIcon fontSize="inherit" />
                 </IconButton> */}
               
                 <Link href="/calendar" passHref>
-                    {/* <Grow in={isClicked} timeout={1000}> */}
                         <IconButton
                             aria-label="calendar"
                             size="large"
-                            sx={{color:`#000000`, padding: `8px`}}
+                            sx={{ color: `#000000`, marginLeft: 'auto' }}
+                        
                         >
                             <CalendarMonthIcon fontSize="inherit"/>
                         </IconButton>
-                    {/* </Grow> */}
                 </Link>
                 
                 
-                {/* <Grow in={isClicked}> */}
                 <Link href="/info" passHref>
                     <IconButton
                         aria-label="info"
                         size="large"
-                        sx={{color:`#000000`, padding: `8px`}}
+                        style={{ color: `#000000`, marginRight: 'auto' }}
                     >
                         <InfoIcon fontSize="inherit" />
                     </IconButton>
                 </Link>
-                {/* </Grow> */}
-                
 
                 
 

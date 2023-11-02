@@ -1,6 +1,5 @@
 .container{
     height: 10vh;
-    /* background-color: #272b2e; */
     background-color: #fffafa;
     display: flex;
     justify-content: space-between; 
@@ -24,15 +23,3 @@
     font-size: large;
     font-weight: 500;
 }
-
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0,0,0,0.7); 
-    z-index: 9999; 
-    pointer-events: none;
-    
-  }
