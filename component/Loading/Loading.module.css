@@ -9,6 +9,11 @@
     justify-content: center;
     padding-top: 20vh;
 }
+
+.load{
+    display: flex;
+    justify-content: center;
+}
 /* .icon{
     background: url("../../public/icon/asucoe_icon1.png") no-repeat;
 } */

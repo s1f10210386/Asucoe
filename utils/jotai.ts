@@ -12,6 +12,8 @@ export const showModelAtom = atom(false);
 
 export const commentBoxShowAtom = atom<boolean>(true);
 
+export const TimeDataAtom = atom<number>(1900);
+
 export const graphDataAtom = atom<{date:string, emotionalValue: number }[]>([])
 
 export const hasLoadedOnceAtom = atom(false)

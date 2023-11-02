@@ -2,3 +2,12 @@
     height: 100vh;
     width: 100vw;
 }
+
+.topbar{
+    /* margin-left: auto; */
+    /* height: 5vh; */
+    /* padding: 8px; */
+    display: flex;
+    justify-content: right;
+    margin-right: 10%; 
+}

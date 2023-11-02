@@ -209,7 +209,7 @@ export default function Calendar(){
                 {isGraphCalendar ? <AutoGraphIcon/> : <CalendarMonthIcon/>}
             </IconButton>
             <Link href="/" passHref>
-                <IconButton aria-label="calendar" size="large" style={{ marginLeft: 'auto', padding: '8px', color: '#000000' }}>
+                <IconButton aria-label="Home" size="large" style={{ marginLeft: 'auto', padding: '8px', color: '#000000' }}>
                     <HomeIcon />
                 </IconButton>
             </Link>

@@ -3,7 +3,7 @@ import styles from "./index.module.css"
 import { Main } from "@/component/Home/Main/Main"
 import { TopBar } from "@/component/Home/TopBar/TopBar"
 import { useAtom } from "jotai";
-import { commentBoxShowAtom, hasLoadedOnceAtom, showModelAtom } from "@/utils/jotai";
+import { TimeDataAtom, commentBoxShowAtom, hasLoadedOnceAtom, showModelAtom } from "@/utils/jotai";
 import { useEffect, useState } from "react";
 import { ShowModel } from "@/component/Home/ShowModel/ShowModel";
 import { Loading } from "@/component/Loading/Loading";
@@ -52,13 +52,16 @@ export default function Home(){
 
     //現在の時刻を記録
     const [currentDateTime, setCurrentDateTime] = useState(getDate());
+
+    //設定時刻
+    const [TimeData] = useAtom(TimeDataAtom)
     useEffect(()=>{
       // setCurrentDateTime(getCurrentTimestamp());
     
       const intervalId = setInterval(() => {
         const date = getDate();
         setCurrentDateTime(date);
-        if (currentDateTime >= 1900){
+        if (currentDateTime >= TimeData){
           setCommentBoxShow(true)
         }
       }, 60 * 1000);
@@ -66,7 +69,7 @@ export default function Home(){
       return ()=>{
         clearInterval(intervalId)
       }
-    },[setCommentBoxShow,setCurrentDateTime,currentDateTime])
+    },[setCommentBoxShow,setCurrentDateTime,currentDateTime, TimeData])
 
 
 
