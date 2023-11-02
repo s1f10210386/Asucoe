@@ -164,7 +164,6 @@ export function CommentBox(){
                 />
                 <Button 
                         component={motion.div}
-                        whileHover={{ rotate: -15, scale: 1.0 }}
                         style={{ backgroundColor: '#91CAD3', color: 'white', borderRadius: '18px' }}
                         onClick={run}
                         className={styles.sendButton}
