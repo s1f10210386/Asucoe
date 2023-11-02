@@ -1,0 +1,14 @@
+.container{
+    width: 100vw;
+    height: 100vh;
+    background-color: #1D394A;
+}
+
+.icon{
+    display: flex;
+    justify-content: center;
+    padding-top: 20vh;
+}
+/* .icon{
+    background: url("../../public/icon/asucoe_icon1.png") no-repeat;
+} */

@@ -8,6 +8,7 @@
     align-items: center;
     border-bottom: 1px solid #ccc;
     overflow: visible;
+    padding-left: 10px;
 }
 .message{
     height: 5vh;    
