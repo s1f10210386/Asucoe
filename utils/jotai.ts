@@ -17,3 +17,11 @@ export const TimeDataAtom = atom<number>(1900);
 export const graphDataAtom = atom<{date:string, emotionalValue: number }[]>([])
 
 export const hasLoadedOnceAtom = atom(false)
+
+
+export const UserAtom = atom({
+    name: "",
+    gender: "",
+    year: "",
+    profession: "",
+});
