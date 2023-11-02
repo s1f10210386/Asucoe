@@ -1,7 +1,7 @@
 import { messageListAtom } from "@/utils/jotai";
 import { useAtom } from "jotai";
 import styles from './TopBar.module.css'
-import { IconButton, Stack, duration } from "@mui/material";
+import { Grow, IconButton, Stack, duration } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import InfoIcon from '@mui/icons-material/Info';
@@ -25,22 +25,26 @@ export function TopBar(){
     const InfoControls = useAnimation(); //info用アニメ定義
     const [isClicked, setIsClicked] = useState(false); // アイコンがクリックされた状態を管理
 
-    const latestContents = messageList[messageList.length -1]?.content;
 
     
 
     //クリックしたらアニメショーン起動しpath飛ぶ
-    const handleIconClick = async (path:string,controls: AnimationControls) => { 
-        await controls.start({
-            x: '-30vw',
-            y: '50vh',
-            scale: 20,
-            opacity:0,
-            transition: { duration: 0.5,ease:[0.42, 0, 0.58, 1] },
-        });
-        // setTimeout(() => router.push('/calendar'), 100);
-        //たまにスマホ画面遷移バグる
-        router.push(path);
+    // const handleIconClick = async (path:string,controls: AnimationControls) => { 
+    //     await controls.start({
+    //         x: '-30vw',
+    //         y: '50vh',
+    //         scale: 20,
+    //         opacity:0,
+    //         transition: { duration: 0.5,ease:[0.42, 0, 0.58, 1] },
+    //     });
+    //     // setTimeout(() => router.push('/calendar'), 100);
+    //     //たまにスマホ画面遷移バグる
+    //     router.push(path);
+    // }
+
+    const handleIconClick = (path: string) => {
+        setIsClicked(true); 
+        setTimeout(() => router.push(path), 500);
     }
 
     const [summary, setSummary] = useState<string>()
@@ -88,15 +92,6 @@ export function TopBar(){
                     )}
                 </div>
             ))}
-             {/* {isOpen ? (
-                <div>
-                    {summary}
-                </div>
-            ):(
-                <div>
-                    {latestContents}
-                </div>
-            )}  */}
             </motion.div>
 
 
@@ -112,7 +107,7 @@ export function TopBar(){
                     className={styles.overlay}
                 ></motion.div> */}
 
-                <MotionIconButton
+                {/* <MotionIconButton
                     aria-label="calendar"
                     size="large"
                     style={{ marginLeft: 'auto', padding: '8px', color: '#000000',
@@ -126,10 +121,19 @@ export function TopBar(){
                     animate={CalendarControls}
                 >
                     <CalendarMonthIcon fontSize="inherit" />
-                </MotionIconButton>
+                </MotionIconButton> */}
               
-                
-                <MotionIconButton
+                <Grow in={isClicked}>
+                    <IconButton
+                        aria-label="calendar"
+                        size="large"
+                        style={{ marginLeft: 'auto', padding: '8px', color: '#000000' }}
+                        onClick={() => handleIconClick('/calendar')}
+                    >
+                        <CalendarMonthIcon fontSize="inherit" />
+                    </IconButton>
+                </Grow>
+                {/* <MotionIconButton
                     aria-label="info"
                     size="large"
                     style={{ marginLeft: 'auto', padding: '8px', color: '#000000',
@@ -143,7 +147,21 @@ export function TopBar(){
                     animate={InfoControls}
                 >
                     <InfoIcon fontSize="inherit" />
+                </MotionIconButton> */}
+                <MotionIconButton>
+                <Grow in={isClicked}>
+                    <IconButton
+                        aria-label="info"
+                        size="large"
+                        style={{ marginLeft: 'auto', padding: '8px', color: '#000000' }}
+                        onClick={() => handleIconClick('/info')}
+                    >
+                        <InfoIcon fontSize="inherit" />
+                    </IconButton>
+                </Grow>
                 </MotionIconButton>
+                
+
                 
 
             </Stack>
