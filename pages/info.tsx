@@ -24,7 +24,7 @@ export default function Info(){
             setTimeData(newValue);
         }
     };
-    console.log(TimeData);
+    // console.log(TimeData);
     return (
 
         <div className={styles.container}>
@@ -35,15 +35,21 @@ export default function Info(){
                 </IconButton>
             </Link>
             <Link href="/calendar" passHref>
-            <IconButton size="large" style={{ marginLeft: 'auto', padding: '8px', color: '#000000' }}>
+            <IconButton size="large" style={{ marginLeft: 'auto', padding: '8px', color: '#000000' , marginRight:"50px"}}>
                 <CalendarMonthIcon/>
             </IconButton>
             </Link>
             </div>
 
-            
-            <Box sx={{ width: 300 }}>
-            <Typography gutterBottom>設定時刻</Typography>
+            <div style={{display:"flex", justifyContent:"center",paddingTop:"50px"}}>
+            <Box sx={{ 
+                width: 300,
+                padding: 2, 
+                borderRadius: 1, 
+                boxShadow: 3, // シャドウを追加
+                bgcolor: 'background.paper', 
+            }}>
+            <Typography>設定時刻: {formatTime(TimeData)}</Typography>
             <Slider
                 value={TimeData}
                 min={0}
@@ -53,8 +59,10 @@ export default function Info(){
                 valueLabelFormat={formatTime}
                 onChange={handleChange}
             />
-            <Typography>Selected Time: {formatTime(TimeData)}</Typography>
+            
             </Box>
+            </div>
+            
         </div>
         
     )
