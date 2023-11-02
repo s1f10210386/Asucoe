@@ -1,4 +1,4 @@
-import { commentBoxShowAtom, messageListAtom, showModelAtom } from "@/utils/jotai";
+import { UserAtom, commentBoxShowAtom, messageListAtom, showModelAtom } from "@/utils/jotai";
 import { baseURL } from "@/utils/url";
 import { useAtom } from "jotai";
 import styles from "./CommentBox.module.css"
@@ -55,13 +55,23 @@ export function CommentBox(){
         return data;
     }
 
-    const counselingGPT = async(content: string)=>{
+    type User ={
+        name:string,
+        gender: string,
+        year: string,
+        profession: string
+    }
+    const counselingGPT = async(user: User,content: string)=>{
         const response = await fetch(`${baseURL}/api/counselingGPTAPI`,{
             method: 'POST',
             headers:{
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(content),
+            body: JSON.stringify({
+                user: user,
+                content:content,
+            }),
+            
         })
         const data = await response.json();
         return data;
@@ -103,9 +113,10 @@ export function CommentBox(){
         await addEmotinalValueDB(calendarId,GPTScoringValue);
     }
 
+    const [user] = useAtom(UserAtom)
     const runCounseling = async(calendarId: number)=>{
         if(messageContent==="") return;
-        const GPTCounseling:string = await counselingGPT(messageContent);
+        const GPTCounseling:string = await counselingGPT(user,messageContent);
 
         await addCounselingDB(calendarId, GPTCounseling);
         

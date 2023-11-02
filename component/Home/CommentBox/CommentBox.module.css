@@ -13,8 +13,12 @@
     align-items: center;
     padding: 5px 10px;
     border-radius: 20px;
-    width: 90%;
+    /* width: 90%; */
+    width: 150vw;
     background-color: #efefef;
+
+    padding-left: 20vw;
+ 
 }
 
 
@@ -38,8 +42,9 @@
 
 .sendButton {
     position:absolute;
-    bottom: 1px; 
-    right: 75px;
+    /* position: relative; */
+    bottom: -2px;
+    right: 70px;
     height: fit-content;
     margin: 0;
 }
