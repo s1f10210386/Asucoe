@@ -21,33 +21,17 @@ export function TopBar(){
     };    
 
     const router = useRouter();
-    const CalendarControls = useAnimation(); //calendar用アニメ定義
-    const InfoControls = useAnimation(); //info用アニメ定義
-    const [isClicked, setIsClicked] = useState(false); // アイコンがクリックされた状態を管理
+    // const [isClicked, setIsClicked] = useState(false); // アイコンがクリックされた状態を管理
 
 
-    
+    // const handleClick = () => {
+    //     setIsClicked(true);
+    //     setTimeout(() => {
+    //         router.push("/calendar");
+    //     }, 1000); // 1000ms = 1秒、Growのアニメーションが完了するまでの時間に合わせて調整
+    // };
 
-    //クリックしたらアニメショーン起動しpath飛ぶ
-    // const handleIconClick = async (path:string,controls: AnimationControls) => { 
-    //     await controls.start({
-    //         x: '-30vw',
-    //         y: '50vh',
-    //         scale: 20,
-    //         opacity:0,
-    //         transition: { duration: 0.5,ease:[0.42, 0, 0.58, 1] },
-    //     });
-    //     // setTimeout(() => router.push('/calendar'), 100);
-    //     //たまにスマホ画面遷移バグる
-    //     router.push(path);
-    // }
-
-    const handleIconClick = (path: string) => {
-        setIsClicked(true); 
-        setTimeout(() => router.push(path), 500);
-    }
-
-    const [summary, setSummary] = useState<string>()
+    // const [summary, setSummary] = useState<string>()
 
    
 
@@ -99,67 +83,30 @@ export function TopBar(){
                 <IconButton aria-label="search" size="large" style={{ marginLeft:'auto',padding:'8px',color: '#000000' }} >
                     <SearchIcon fontSize="inherit" />
                 </IconButton>
-                        
-                
-                {/* <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: isClicked ? 0.8 : 0 }} 
-                    className={styles.overlay}
-                ></motion.div> */}
-
-                {/* <MotionIconButton
-                    aria-label="calendar"
-                    size="large"
-                    style={{ marginLeft: 'auto', padding: '8px', color: '#000000',
-                 }}
-                    initial={{scale:1}}
-                    whileHover={{ scale: 1.1 }} // ホバー時に少し拡大する
-                    onClick={() => {
-                        handleIconClick('/calendar',CalendarControls);
-                        setIsClicked(true);
-                    }} // クリック時にアニメーションを実行する
-                    animate={CalendarControls}
-                >
-                    <CalendarMonthIcon fontSize="inherit" />
-                </MotionIconButton> */}
               
-                <Grow in={isClicked}>
-                    <IconButton
-                        aria-label="calendar"
-                        size="large"
-                        style={{ marginLeft: 'auto', padding: '8px', color: '#000000' }}
-                        onClick={() => handleIconClick('/calendar')}
-                    >
-                        <CalendarMonthIcon fontSize="inherit" />
-                    </IconButton>
-                </Grow>
-                {/* <MotionIconButton
-                    aria-label="info"
-                    size="large"
-                    style={{ marginLeft: 'auto', padding: '8px', color: '#000000',
-                 }}
-                    initial={{scale:1}}
-                    whileHover={{ scale: 1.1 }}
-                    onClick={() => {
-                        handleIconClick('/info',InfoControls);
-                        setIsClicked(true);
-                    }}
-                    animate={InfoControls}
-                >
-                    <InfoIcon fontSize="inherit" />
-                </MotionIconButton> */}
-                <MotionIconButton>
-                <Grow in={isClicked}>
+                <Link href="/calendar" passHref>
+                    {/* <Grow in={isClicked} timeout={1000}> */}
+                        <IconButton
+                            aria-label="calendar"
+                            size="large"
+                            style={{ marginLeft: 'auto', padding: '8px', color: '#000000' }}
+                            // onClick={handleClick}
+                        >
+                            <CalendarMonthIcon fontSize="inherit"/>
+                        </IconButton>
+                    {/* </Grow> */}
+                </Link>
+                
+                
+                {/* <Grow in={isClicked}> */}
                     <IconButton
                         aria-label="info"
                         size="large"
                         style={{ marginLeft: 'auto', padding: '8px', color: '#000000' }}
-                        onClick={() => handleIconClick('/info')}
                     >
                         <InfoIcon fontSize="inherit" />
                     </IconButton>
-                </Grow>
-                </MotionIconButton>
+                {/* </Grow> */}
                 
 
                 

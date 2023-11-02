@@ -216,8 +216,9 @@ export default function Calendar(){
             </div>
 
             <div className={styles.calendarGraph}>
-                <Slide direction="left" in={isGraphCalendar} mountOnEnter unmountOnExit timeout={500}>
-                <div className={styles.calendarGraph}>
+                <Slide direction="left" in={isGraphCalendar} mountOnEnter unmountOnExit>
+                {/* {isGraphCalendar&&( */}
+                    <div className={styles.calendarGraph}>
                     <div className={styles.calendarHeader}>
                     <IconButton onClick={prevMonth}>
                         <ArrowBackIcon/>
@@ -246,6 +247,8 @@ export default function Calendar(){
                         ))}
                     </div>
                 </div>
+                {/* )} */}
+                
                 </Slide>
                 <Slide direction="right" in={!isGraphCalendar} mountOnEnter unmountOnExit timeout={500}>
                     <div><Graph/></div>
