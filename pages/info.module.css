@@ -2,6 +2,7 @@
     height: 100vh;
     width: 100vw;
     background-color: #efefef;
+    /* overflow:   auto; */
 }
 
 .topbar{
@@ -13,7 +14,10 @@
    
     background-color: #ffffff;
 }
-
+.main{
+    max-height: 75vh;
+    overflow: auto;
+}
 .footer{
     position: fixed;
     bottom: 0;
@@ -22,5 +26,5 @@
     /* color: #fff; 文字色 */
     text-align: center;
     padding: 10px 0;
-    z-index: 1000; /* 他の要素よりも上に表示 */
+    z-index: 1000; 
 }

@@ -1,4 +1,4 @@
-import { UserAtom, commentBoxShowAtom, countAtom, emotionalSevenTotalAtom, messageListAtom, showModelAtom } from "@/utils/jotai";
+import { UserAtom, commentBoxShowAtom, countAtom, emotionalSevenTotalAtom, emotionalSixListAtom, messageListAtom, showModelAtom } from "@/utils/jotai";
 import { baseURL } from "@/utils/url";
 import { useAtom } from "jotai";
 import styles from "./CommentBox.module.css"
@@ -43,6 +43,9 @@ export function CommentBox(){
         }
     }
 
+
+    
+
     const scoringGPT =async(content : string) =>{
         const response= await fetch(`${baseURL}/api/scoringGPTAPI`, {
             method: 'POST',
@@ -52,8 +55,11 @@ export function CommentBox(){
             body: JSON.stringify(content),
         })
         const data = await response.json();
+        // console.log(""data)
+        
         return data;
     }
+
 
     type User ={
         name:string,
@@ -102,6 +108,8 @@ export function CommentBox(){
         const data = await response.json();
         return data;
     }
+    const [emotionalSixList] = useAtom(emotionalSixListAtom);
+    const [emotionalSevenTotal, setEmotionalSevenTotal] = useAtom(emotionalSevenTotalAtom)
 
     const runGPT = async(calendarId: number)=>{
         if(messageContent === "") return;
@@ -110,6 +118,18 @@ export function CommentBox(){
         console.log("GPTScoringVaule",GPTScoringValue);
 
         console.log("calendarId", calendarId)
+
+        if(emotionalSixList !== null){
+            const totalEmotionalValue = emotionalSixList.reduce((accumulator, curretValue) => accumulator + curretValue, 0) + GPTScoringValue
+            if(count === 7){
+                setEmotionalSevenTotal(totalEmotionalValue);
+            }else{
+                setEmotionalSevenTotal(0);
+            }
+        }
+        
+
+
         //ここでGPTscoringの内容をDBに接続
         await addEmotinalValueDB(calendarId,GPTScoringValue);
     }
@@ -129,7 +149,6 @@ export function CommentBox(){
     };
 
     const [count, setCount] =useAtom(countAtom);
-    const [emotionalSevenTotal, setEmotionalSevenTotal] = useAtom(emotionalSevenTotalAtom)
     const run = async()=>{
         if(messageContent === "") return;
         const nowString = getCurrentTimestamp();

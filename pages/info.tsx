@@ -115,99 +115,92 @@ export default function Info(){
             </Link>
             </div>
 
-            {/* <div> */}
-            <div style={{display:"flex", justifyContent:"center",paddingTop:"50px"}}>
-            
+            <div className={styles.main}>
+                <div style={{display:"flex", justifyContent:"center",paddingTop:"50px"}}>
+                    <Box sx={{ 
+                    width: 300,
+                    padding: 2, 
+                    borderRadius: 1, 
+                    boxShadow: 3, // シャドウを追加
+                    bgcolor: 'background.paper', 
+                    }}>
+                    <Typography>設定時刻: {formatTime(TimeData)}</Typography>
+                    <Slider
+                        value={TimeData}
+                        min={0}
+                        max={2359}
+                        step={100} // 1時間ごとにステップ
+                        valueLabelDisplay="auto"
+                        valueLabelFormat={formatTime}
+                        onChange={handleTimeChange}
+                    /> 
+                    </Box>
+                </div>
 
-            <Box sx={{ 
-                width: 300,
-                padding: 2, 
-                borderRadius: 1, 
-                boxShadow: 3, // シャドウを追加
-                bgcolor: 'background.paper', 
-            }}>
-            <Typography>設定時刻: {formatTime(TimeData)}</Typography>
-            <Slider
-                value={TimeData}
-                min={0}
-                max={2359}
-                step={100} // 1時間ごとにステップ
-                valueLabelDisplay="auto"
-                valueLabelFormat={formatTime}
-                onChange={handleTimeChange}
-            />
-            
-            </Box>
+                <div style={{ maxWidth: '500px', margin: '0 auto', padding: '20px' }}>
+                <Typography variant="h5" gutterBottom>
+                    ユーザー情報
+                </Typography>
+                {editMode ? (
+                    <>
+                        <TextField
+                            fullWidth
+                            margin="normal"
+                            label="名前"
+                            value={user.name}
+                            onChange={handleUserChange('name')}
+                        />
+                        <FormControl fullWidth margin="normal">
+                            <InputLabel>性別</InputLabel>
+                            <Select value={user.gender} onChange={handleUserChange('gender')}>
+                                <MenuItem value="男性">男性</MenuItem>
+                                <MenuItem value="女性">女性</MenuItem>
+                                <MenuItem value="その他">その他</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <TextField
+                            fullWidth
+                            margin="normal"
+                            label="年齢"
+                            type="number"
+                            value={user.age}
+                            onChange={handleUserChange('age')}
+                        />
+                        <TextField
+                            fullWidth
+                            margin="normal"
+                            label="職業"
+                            value={user.profession}
+                            onChange={handleUserChange('profession')}
+                        />
+                        <Button 
+                            variant="contained" 
+                            color="primary" 
+                            style={{ marginTop: '20px' }}
+                            onClick={handleUserSubmit}
+                        >
+                            保存
+                        </Button>
+                    </>
+                ) : (
+                    <>
+                        <Typography variant="body1">名前: {user.name}</Typography>
+                        <Typography variant="body1">性別: {user.gender}</Typography>
+                        <Typography variant="body1">年齢: {user.age}</Typography>
+                        <Typography variant="body1">職業: {user.profession}</Typography>
+                        <Button 
+                            variant="outlined" 
+                            color="primary" 
+                            style={{ marginTop: '20px' }}
+                            onClick={() => setEditMode(true)}
+                        >   
+                            編集
+                        </Button>
+                    </>
+                )}
+                </div>
             </div>
-
-            <div style={{ maxWidth: '500px', margin: '0 auto', padding: '20px' }}>
-            <Typography variant="h5" gutterBottom>
-                ユーザー情報
-            </Typography>
-
-            {editMode ? (
-                <>
-                    <TextField
-                        fullWidth
-                        margin="normal"
-                        label="名前"
-                        value={user.name}
-                        onChange={handleUserChange('name')}
-                    />
-
-                    <FormControl fullWidth margin="normal">
-                        <InputLabel>性別</InputLabel>
-                        <Select value={user.gender} onChange={handleUserChange('gender')}>
-                            <MenuItem value="男性">男性</MenuItem>
-                            <MenuItem value="女性">女性</MenuItem>
-                            <MenuItem value="その他">その他</MenuItem>
-                        </Select>
-                    </FormControl>
-
-                    <TextField
-                        fullWidth
-                        margin="normal"
-                        label="年齢"
-                        type="number"
-                        value={user.age}
-                        onChange={handleUserChange('age')}
-                    />
-
-                    <TextField
-                        fullWidth
-                        margin="normal"
-                        label="職業"
-                        value={user.profession}
-                        onChange={handleUserChange('profession')}
-                    />
-
-                    <Button 
-                        variant="contained" 
-                        color="primary" 
-                        style={{ marginTop: '20px' }}
-                        onClick={handleUserSubmit}
-                    >
-                        保存
-                    </Button>
-                </>
-            ) : (
-                <>
-                    <Typography variant="body1">名前: {user.name}</Typography>
-                    <Typography variant="body1">性別: {user.gender}</Typography>
-                    <Typography variant="body1">年齢: {user.age}</Typography>
-                    <Typography variant="body1">職業: {user.profession}</Typography>
-
-                    <Button 
-                        variant="outlined" 
-                        color="primary" 
-                        style={{ marginTop: '20px' }}
-                        onClick={() => setEditMode(true)}
-                    >
-                        編集
-                    </Button>
-                </>
-            )}
-        </div>
+            
 
         <div className={styles.footer}>
         <Box 
