@@ -2,7 +2,7 @@ import { commentBoxShowAtom, messageListAtom } from "@/utils/jotai";
 import { baseURL } from "@/utils/url";
 import { useAtom } from "jotai";
 import styles from "./Main.module.css"
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function Main(){
     const [messageList, setMessageList] = useAtom(messageListAtom);
@@ -33,14 +33,16 @@ export function Main(){
             emotinalValue: item.emotinalValue,
             id: item.id
         }))
-        return combinedData;
+        return {combinedData, combinedDataCalendar};
     }
 
+    // const [emotional, setEmotional] = useState();
     useEffect(()=>{
         const fetchMessages=async()=>{
-            const DB = await getMessages();
-            setMessageList(DB)
+            const DB_message = (await getMessages()).combinedData;
+            setMessageList(DB_message)
         }
+        
         
         fetchMessages();
     },[setMessageList]);

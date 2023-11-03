@@ -7,7 +7,7 @@ const openai =  new OpenAI({
 type User ={
     name:string,
     gender: string,
-    year: string,
+    age: string,
     profession: string
 }
 
@@ -21,7 +21,7 @@ export const counselingGPT =async (user: User ,content: string) => {
         カウンセラー相手の基本情報。（これはあまり気にしなくていい）
         名前:${user.name},
         性別:${user.gender},
-        年齢:${user.year},
+        年齢:${user.age},
         職業:${user.profession},
         `
     }else{
