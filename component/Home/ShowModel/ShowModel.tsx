@@ -15,12 +15,16 @@ export const ShowModel = () => {
     console.log("count", count)
 
     //これでパス設定
+    // const imagePath = `/icon/kyoryu${count}.png`;
     const imagePath = `/icon/egg${count}.png`;
+    
 
     return (
         <div className={styles.container}>
             <div className={styles.kyoryu} >
+            {/* <Image src={imagePath} width={1550} height={1550} alt={`kyoryu ${count}`} /> */}
             <Image src={imagePath} width={1550} height={1550} alt={`egg ${count}`} />
+
             </div>
         </div>
     )
