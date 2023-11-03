@@ -16,13 +16,6 @@ export const ShowModel = () => {
     頑張ってください！発表が終わった後の達成感も楽しみにしてくださいね。
     `
     return (
-        <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: showModel ? 1 : 0 }}
-            transition={{ duration: 2 }}
-            className={styles.container}>
-            {/* {answer} */}
-            今日も１日お疲れさまでした。
-        </motion.div>
+            <div>今日も１日お疲れさまでした。</div>
     )
 }
