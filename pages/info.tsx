@@ -93,7 +93,6 @@ export default function Info(){
             }
 
             setUser(userToSet);
-            // console.log("user",user)
         }
         fetchUser();
         
