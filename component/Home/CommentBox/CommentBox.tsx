@@ -110,7 +110,6 @@ export function CommentBox(){
     }
     const [emotionalSixList] = useAtom(emotionalSixListAtom);
     const [emotionalSevenTotal, setEmotionalSevenTotal] = useAtom(emotionalSevenTotalAtom)
-    const [sevenCount, setSevenCount] = useState<number>(0)
 
     const runGPT = async(calendarId: number)=>{
         if(messageContent === "") return;
@@ -122,14 +121,12 @@ export function CommentBox(){
 
         if(emotionalSixList !== null){
             const totalEmotionalValue = emotionalSixList.reduce((accumulator, curretValue) => accumulator + curretValue, 0) + GPTScoringValue
-            if(sevenCount === 7){
+            if(count === 7){
                 setEmotionalSevenTotal(totalEmotionalValue);
-                setSevenCount(0)
             }else{
                 setEmotionalSevenTotal(0);
             }
         }
-        setSevenCount(sevenCount + 1);
         
 
 

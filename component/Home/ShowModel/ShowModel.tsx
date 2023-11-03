@@ -9,7 +9,7 @@ export const ShowModel = () => {
 
     const [count, setCount] = useAtom(countAtom);
 
-    //7になったら数がでる。それ以外は０
+    //7になったら数がでる。それ以外は０になる。なので０以外だったら処理すればおｋ
     const [emotinalSevenTotal] = useAtom(emotionalSevenTotalAtom)
 
     console.log("count", count)
