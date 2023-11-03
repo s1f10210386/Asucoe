@@ -3,11 +3,12 @@ import styles from "./index.module.css"
 import { Main } from "@/component/Home/Main/Main"
 import { TopBar } from "@/component/Home/TopBar/TopBar"
 import { useAtom } from "jotai";
-import { TimeDataAtom, commentBoxShowAtom, hasLoadedOnceAtom, showModelAtom } from "@/utils/jotai";
+import { TimeDataAtom, UserAtom, commentBoxShowAtom, hasLoadedOnceAtom, showModelAtom } from "@/utils/jotai";
 import { useEffect, useState } from "react";
 import { ShowModel } from "@/component/Home/ShowModel/ShowModel";
 import { Loading } from "@/component/Loading/Loading";
 import Link from "next/link";
+import { baseURL } from "@/utils/url";
 
 export default function Home(){
   const [hasLoadedOnce, setHasLoadedOnce] = useAtom(hasLoadedOnceAtom);
@@ -73,6 +74,36 @@ export default function Home(){
 
 
 
+    //Userの基本情報をDBから取得
+    const [user, setUser] = useAtom(UserAtom)
+    const getUser = async()=>{
+      const response = await fetch(`${baseURL}/api/getDB`,{
+          method: "GET",
+          headers:{
+              'Content-Type': 'application/json',
+          },
+      })
+      const data = await response.json()
+      const DB_user = data.user;
+      return DB_user
+    }
+
+    useEffect(()=>{
+      const fetchUser = async()=>{
+          const DB_user = await getUser()
+          const userToSet = {
+              name: DB_user[0].name,
+              gender: DB_user[0].gender,
+              age: DB_user[0].age,
+              profession: DB_user[0].profession,
+          }
+
+          setUser(userToSet);
+        
+      }
+      fetchUser();
+      
+    },[setUser])
 
   return (
     <div className={styles.container}>
