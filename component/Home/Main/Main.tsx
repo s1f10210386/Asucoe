@@ -1,4 +1,4 @@
-import { commentBoxShowAtom, messageListAtom } from "@/utils/jotai";
+import { commentBoxShowAtom, emotionalSixListAtom, messageListAtom } from "@/utils/jotai";
 import { baseURL } from "@/utils/url";
 import { useAtom } from "jotai";
 import styles from "./Main.module.css"
@@ -30,22 +30,36 @@ export function Main(){
 
         const combinedDataCalendar = DB_calendar.map((item : any)=>({
             date: item.date,
-            emotinalValue: item.emotinalValue,
+            emotionalValue: item.emotionalValue,
             id: item.id
         }))
         return {combinedData, combinedDataCalendar};
     }
 
-    // const [emotional, setEmotional] = useState();
+    const [emotionalSixList, setEmotionalSixList] = useAtom(emotionalSixListAtom);
     useEffect(()=>{
         const fetchMessages=async()=>{
             const DB_message = (await getMessages()).combinedData;
             setMessageList(DB_message)
         }
+
+        //DBからemotional6個もってくるために使用
+        const fetchCalendar = async()=>{
+            const DB_calendar = await getMessages();
+            // console.log(DB_calendar.combinedDataCalendar)
+            const EmotionalArray: number[]= DB_calendar.combinedDataCalendar.map((item:any)=>item.emotionalValue)
+            const EmotionalCatLatestSix = EmotionalArray.reverse().slice(0,6).reverse();
+            if(EmotionalCatLatestSix.length > 5){
+                setEmotionalSixList(EmotionalCatLatestSix)
+            }
+        }
         
         
         fetchMessages();
-    },[setMessageList]);
+        
+        fetchCalendar();
+    },[setMessageList, setEmotionalSixList]);
+
 
     useEffect(() => {
         // 2. メッセージリストが変更されるたびにスクロール位置を最下部に設定

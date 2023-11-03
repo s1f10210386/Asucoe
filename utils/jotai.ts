@@ -28,4 +28,5 @@ export const UserAtom = atom({
 
 export const countAtom = atom<number>(0);
 
+export const emotionalSixListAtom = atom<number[] | null>(null)
 export const emotionalSevenTotalAtom = atom<number>(0);
