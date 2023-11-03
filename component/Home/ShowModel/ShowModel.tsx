@@ -2,29 +2,23 @@ import { countAtom, showModelAtom } from '@/utils/jotai';
 import { motion } from 'framer-motion';
 import { useAtom } from 'jotai';
 import styles from './ShowModel.module.css'
+import Image from 'next/image';
 
 export const ShowModel = () => {
     const [showModel] = useAtom(showModelAtom)
 
     const [count, setCount] = useAtom(countAtom);
 
-    //質問内容
-    //今日はハッカソン当日で、いまちょうど発表の途中でてが震えて緊張しています。
+    console.log("count", count)
 
-    
-    const answer = `ハッカソン頑張れ！`
+    //これでパス設定
+    const imagePath = `/icon/kyoryu${count}.png`;
+
     return (
-<<<<<<< HEAD
-        <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: showModel ? 1 : 0 }}
-            transition={{ duration: 2 }}
-            className={styles.container}>
-            {answer}
-            {/* 今日も１日お疲れさまでした。 */}
-        </motion.div>
-=======
-            <div>今日も１日お疲れさまでした。</div>
->>>>>>> fe1ddcfb3ddd723ab06b1dbf5a5789d15c768fa3
+        <div className={styles.container}>
+            <div className={styles.kyoryu} >
+            <Image src={imagePath} width={1550} height={1550} alt={`kyoryu ${count}`} />
+            </div>
+        </div>
     )
 }
