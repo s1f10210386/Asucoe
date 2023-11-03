@@ -1,4 +1,4 @@
-import { UserAtom, commentBoxShowAtom, messageListAtom, showModelAtom } from "@/utils/jotai";
+import { UserAtom, commentBoxShowAtom, countAtom, messageListAtom, showModelAtom } from "@/utils/jotai";
 import { baseURL } from "@/utils/url";
 import { useAtom } from "jotai";
 import styles from "./CommentBox.module.css"
@@ -127,6 +127,7 @@ export function CommentBox(){
         animate: { x: 100, y: -100, opacity: 0, transition: { duration: 0.5 } }
     };
 
+    const [count, setCount] =useAtom(countAtom);
     const run = async()=>{
         if(messageContent === "") return;
         const nowString = getCurrentTimestamp();
@@ -148,6 +149,8 @@ export function CommentBox(){
         // console.log("保存された値",commentBoxShow)
         runGPT(newCalendarData.calendar.id);
         runCounseling(newCalendarData.calendar.id);
+
+        setCount( (count+1) % 7);
     }
     
       // コンポーネントがマウントされた時にlocalStorageから値を読み込む

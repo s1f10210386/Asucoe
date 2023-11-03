@@ -25,3 +25,5 @@ export const UserAtom = atom({
     year: "",
     profession: "",
 });
+
+export const countAtom = atom<number>(0);
