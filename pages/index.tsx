@@ -34,7 +34,7 @@ export default function Home(){
       if (showModel) {
           const timer = setTimeout(() => {
               setShowModel(false);
-          }, 2000);
+          }, 4000);
           return () => {
               clearTimeout(timer);
           };
