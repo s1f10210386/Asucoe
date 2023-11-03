@@ -1,4 +1,4 @@
-import { UserAtom, commentBoxShowAtom, countAtom, messageListAtom, showModelAtom } from "@/utils/jotai";
+import { UserAtom, commentBoxShowAtom, countAtom, emotionalSevenTotalAtom, messageListAtom, showModelAtom } from "@/utils/jotai";
 import { baseURL } from "@/utils/url";
 import { useAtom } from "jotai";
 import styles from "./CommentBox.module.css"
@@ -58,7 +58,7 @@ export function CommentBox(){
     type User ={
         name:string,
         gender: string,
-        year: string,
+        age: string,
         profession: string
     }
     const counselingGPT = async(user: User,content: string)=>{
@@ -87,6 +87,7 @@ export function CommentBox(){
             body: JSON.stringify({ id: calendarId, emotionalValue: emotionalValue}),
         })
         const data = await response.json();
+        
         return data;
     }
 
@@ -128,6 +129,7 @@ export function CommentBox(){
     };
 
     const [count, setCount] =useAtom(countAtom);
+    const [emotionalSevenTotal, setEmotionalSevenTotal] = useAtom(emotionalSevenTotalAtom)
     const run = async()=>{
         if(messageContent === "") return;
         const nowString = getCurrentTimestamp();

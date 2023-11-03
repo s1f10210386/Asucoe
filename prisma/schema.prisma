@@ -25,3 +25,11 @@ model Calendar {
   emotionalValue  Int
   message         Message? 
 }
+
+model User {
+  id            Int    @id @default(autoincrement())
+  name          String @default("")
+  gender        String @default("")
+  age           String @default("")
+  profession    String @default("")
+}

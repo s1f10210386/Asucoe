@@ -2,7 +2,7 @@ import Link from 'next/link'
 import styles from './info.module.css'
 import { Box, IconButton, Slider, Typography, Link as MuiLink, TextField, FormControl, InputLabel, Select, MenuItem, Button  } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import HomeIcon from '@mui/icons-material/Home';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { useAtom } from 'jotai';
@@ -12,6 +12,7 @@ import { TimeDataAtom, UserAtom } from '@/utils/jotai';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGithub, faXTwitter  } from '@fortawesome/free-brands-svg-icons'
+import { baseURL } from '@/utils/url';
 
 
 
@@ -34,17 +35,23 @@ export default function Info(){
     type User = {
         name: string;
         gender: string;
-        year: string;
+        age: string;
         profession: string;
     };
 
+    const addUserDB = async(user:User)=>{
+        console.log("user",user)
+        const response = await fetch(`${baseURL}/api/addUserDBAPI`,{
+            method:"POST",
+            headers:{
+                'Content-Type' : "application/json",
+            },
+            body: JSON.stringify(user),
+        })
+        const data = await response.json();
+        return data;
+    }
 
-    // const [user, setUser] = useState<User>({
-    //     name: "",
-    //     gender: "",
-    //     year: "",
-    //     profession: "",
-    // })
 
     const [user, setUser] = useAtom(UserAtom);
     const [editMode, setEditMode] = useState(false);
@@ -54,11 +61,44 @@ export default function Info(){
             ...user,
             [field]: e.target.value
         });
+        // console.log("user",user)
     };
       
     const handleUserSubmit =()=>{
         setEditMode(false);
+        // console.log(user)
+        addUserDB(user);
     }
+
+    const getUser = async()=>{
+        const response = await fetch(`${baseURL}/api/getDB`,{
+            method: "GET",
+            headers:{
+                'Content-Type': 'application/json',
+            },
+        })
+        const data = await response.json()
+        const DB_user = data.user;
+        return DB_user
+    }
+
+    useEffect(()=>{
+        const fetchUser = async()=>{
+            const DB_user = await getUser()
+            const userToSet = {
+                name: DB_user[0].name,
+                gender: DB_user[0].gender,
+                age: DB_user[0].age,
+                profession: DB_user[0].profession,
+            }
+
+            setUser(userToSet);
+            // console.log("user",user)
+        }
+        fetchUser();
+        
+    },[setUser])
+    // console.log(user.name)
 
     return (
 
@@ -130,8 +170,8 @@ export default function Info(){
                         margin="normal"
                         label="年齢"
                         type="number"
-                        value={user.year}
-                        onChange={handleUserChange('year')}
+                        value={user.age}
+                        onChange={handleUserChange('age')}
                     />
 
                     <TextField
@@ -155,7 +195,7 @@ export default function Info(){
                 <>
                     <Typography variant="body1">名前: {user.name}</Typography>
                     <Typography variant="body1">性別: {user.gender}</Typography>
-                    <Typography variant="body1">年齢: {user.year}</Typography>
+                    <Typography variant="body1">年齢: {user.age}</Typography>
                     <Typography variant="body1">職業: {user.profession}</Typography>
 
                     <Button 

@@ -22,8 +22,10 @@ export const hasLoadedOnceAtom = atom(false)
 export const UserAtom = atom({
     name: "",
     gender: "",
-    year: "",
+    age: "",
     profession: "",
 });
 
 export const countAtom = atom<number>(0);
+
+export const emotionalSevenTotalAtom = atom<number>(0);

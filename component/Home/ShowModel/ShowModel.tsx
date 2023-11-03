@@ -14,7 +14,6 @@ export const ShowModel = () => {
     
     const answer = `ハッカソン頑張れ！`
     return (
-<<<<<<< HEAD
         <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: showModel ? 1 : 0 }}
@@ -23,8 +22,5 @@ export const ShowModel = () => {
             {answer}
             {/* 今日も１日お疲れさまでした。 */}
         </motion.div>
-=======
-            <div>今日も１日お疲れさまでした。</div>
->>>>>>> fe1ddcfb3ddd723ab06b1dbf5a5789d15c768fa3
     )
 }

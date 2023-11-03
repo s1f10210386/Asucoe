@@ -9,7 +9,8 @@ export default async function getDB(req: NextApiRequest, res: NextApiResponse) {
     try{
         const calendar = await prisma.calendar.findMany()
         const messages = await prisma.message.findMany()
-        res.json({calendar, messages})
+        const user = await prisma.user.findMany()
+        res.json({calendar, messages, user})
     }catch(error){
         console.error("Error fetching messages:", error);
         if (error instanceof Error) {
