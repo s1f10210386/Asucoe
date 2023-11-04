@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import SendIcon from '@mui/icons-material/Send';
 import React from "react";
 import { motion } from "framer-motion";
+import { stringify } from "querystring";
 
 export function CommentBox(){
 
@@ -148,7 +149,8 @@ export function CommentBox(){
         animate: { x: 100, y: -100, opacity: 0, transition: { duration: 0.5 } }
     };
 
-    const [count, setCount] =useAtom(countAtom);
+    const [count, setCount] = useAtom(countAtom);
+    
     const run = async()=>{
         if(messageContent === "") return;
         const nowString = getCurrentTimestamp();
@@ -171,9 +173,24 @@ export function CommentBox(){
         runGPT(newCalendarData.calendar.id);
         runCounseling(newCalendarData.calendar.id);
 
-        setCount( (count+1) % 7);
+        //
+        setCount(prevCount => {
+            const newCount = (prevCount + 1) % 7;
+            localStorage.setItem('count', JSON.stringify(newCount));
+            return newCount;
+        });
+        
+        // const countString = localStorage.getItem('count');
+        // const savedCount = (countString !== null) ? JSON.parse(countString) : null;
+        
     }
-    
+    useEffect(() => {
+        const countString = localStorage.getItem('count');
+        const savedCount = (countString !== null) ? JSON.parse(countString) : null;
+
+        setCount(savedCount);
+    }, [setCount]);
+
       // コンポーネントがマウントされた時にlocalStorageから値を読み込む
     // useEffect(() => {
     //     const storedIsActive = localStorage.getItem('commentBoxShow');
