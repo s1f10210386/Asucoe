@@ -2,7 +2,8 @@
     height: 10vh;
     display: flex;
     justify-content: center;
-    align-items: flex-end;
+    /* align-items: flex-end; */
+    align-items: center;
 
     
 }
@@ -10,42 +11,28 @@
 .inputContainer {
     position: relative;
     display: flex;
-    align-items: center;
-    padding: 5px 10px;
-    border-radius: 20px;
-    /* width: 90%; */
-    width: 150vw;
-    background-color: #efefef;
-
-    padding-left: 20vw;
- 
+     width: 80%;
+    max-width: 800px;
+    background-color: #efefef; 
 }
 
 
 
 .textFieldStyle {
     flex: 1;
-    width: 90%;
+    /* width: 100vw; */
     padding: 20px 10px;
-    border: none; /* ボーダーを削除 */
+    border: none; 
     border-radius: 20px;
     outline: none;
     font-size: 1rem;
     background-color: #efefef;
-    transition: all 0.3s ease-in-out; /* スムーズな遷移 */
+    transition: all 0.3s ease-in-out;
 }
 
-.textFieldStyle:focus {
-    background-color: #ebebeb; /* フォーカス時の背景色 */
+/* .textFieldStyle:focus {
+    background-color: #ebebeb; 
     box-shadow: 0 0 5px #91CAD3;
-}
+} */
 
-.sendButton {
-    position:absolute;
-    /* position: relative; */
-    bottom: -2px;
-    right: 70px;
-    height: fit-content;
-    margin: 0;
-}
 

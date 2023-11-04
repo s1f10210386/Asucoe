@@ -205,14 +205,17 @@ export default function Calendar(){
     return (
         <div className={styles.container}>
             <div className={styles.topbar}>
-            <IconButton size="large" style={{ marginLeft: 'auto', padding: '8px', color: '#000000' }} onClick={isChangeCalendarGraph}>
-                {isGraphCalendar ? <AutoGraphIcon/> : <CalendarMonthIcon/>}
-            </IconButton>
             <Link href="/" passHref>
                 <IconButton aria-label="Home" size="large" style={{ marginLeft: 'auto', padding: '8px', color: '#000000' }}>
-                    <HomeIcon />
+                    <HomeIcon fontSize="inherit"/>
                 </IconButton>
             </Link>
+            <IconButton size="large" style={{ padding: '8px', color: '#000000' , marginRight: '0px'}} onClick={isChangeCalendarGraph}>
+                {isGraphCalendar ? <AutoGraphIcon fontSize="inherit"/> : <CalendarMonthIcon fontSize="inherit"/>}
+            </IconButton>
+           
+            
+            
             </div>
 
             <div className={styles.calendarGraph}>
