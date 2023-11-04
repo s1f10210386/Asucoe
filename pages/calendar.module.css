@@ -5,12 +5,14 @@
     
   }
 .topbar{
-    /* margin-left: auto; */
-    /* height: 5vh; */
-    /* padding: 8px; */
+    height: 10vh;
+    background-color: #ffffff;
     display: flex;
     justify-content: right;
-    margin-right: 10%; 
+
+    align-items: center;
+    /* border-bottom: 1px solid #ccc; */
+    padding-left: 10px;
 }
 
 
@@ -19,6 +21,9 @@
     height: 47vh;
     overflow: auto  ;
     /* background-color: darkgoldenrod; */
+    @media screen and (min-width: 700px) {
+        height: 55vh;
+    }
 }
 
 
@@ -33,6 +38,7 @@
     box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
     background-color: rgb(255, 253, 253);
     height: 47vh;
+    
 }
 
 .calendarHeader{

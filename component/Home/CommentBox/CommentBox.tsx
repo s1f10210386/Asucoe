@@ -2,7 +2,7 @@ import { UserAtom, commentBoxShowAtom, countAtom, emotionalSevenTotalAtom, emoti
 import { baseURL } from "@/utils/url";
 import { useAtom } from "jotai";
 import styles from "./CommentBox.module.css"
-import { Button, TextField } from "@mui/material";
+import { Button, IconButton, InputAdornment, TextField } from "@mui/material";
 import { getCurrentTimestamp } from "@/utils/CurrentTime";
 import { useEffect, useState } from "react";
 import SendIcon from '@mui/icons-material/Send';
@@ -212,17 +212,22 @@ export function CommentBox(){
                     placeholder="明日の自分へ"
                     value={messageContent}
                     onChange={(e) => setMsseageContent(e.target.value)}
-                    InputProps={{style: { borderRadius: 30 }}}
+                    InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              onClick={run}
+                              edge="end"
+                              style={{backgroundColor: '#91CAD3', color: 'white', borderRadius: '20px'}}
+                            >
+                              <SendIcon />
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                        style: { borderRadius: 30 },
+                      }}
+
                 />
-                <Button 
-                        component={motion.div}
-                        style={{ backgroundColor: '#91CAD3', color: 'white', borderRadius: '18px' }}
-                        onClick={run}
-                        className={styles.sendButton}
-                        startIcon={<SendIcon />}
-                    
-                >
-                </Button>
             </div>
         </div>
     )
