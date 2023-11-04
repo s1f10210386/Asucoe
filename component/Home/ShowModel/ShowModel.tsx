@@ -19,12 +19,6 @@ export const ShowModel = () => {
     // const imagePath = `/icon/kyoryu${count}.png`;
     const imagePath = `/icon/egg${count}.png`;
 
-    // useEffect(() => {
-    //     const countString = localStorage.getItem('count');
-    //     const savedCount = (countString !== null) ? JSON.parse(countString) : null;
-
-    //     setCount(savedCount);
-    // }, [setCount]);
 
     return (
         <div className={styles.container}>
