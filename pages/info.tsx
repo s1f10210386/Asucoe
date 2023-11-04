@@ -105,12 +105,12 @@ export default function Info(){
             <div className={styles.topbar}>
             <Link href="/" passHref>
                 <IconButton aria-label="Home" size="large" style={{ marginLeft: 'auto', padding: '8px', color: '#000000' }}>
-                    <HomeIcon />
+                    <HomeIcon fontSize="inherit"/>
                 </IconButton>
             </Link>
             <Link href="/calendar" passHref>
             <IconButton size="large" style={{ marginLeft: 'auto', padding: '8px', color: '#000000' , marginRight:"50px"}}>
-                <CalendarMonthIcon/>
+                <CalendarMonthIcon fontSize="inherit"/>
             </IconButton>
             </Link>
             </div>
